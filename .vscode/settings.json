@@ -1,6 +1,7 @@
 {
     "python.pythonPath": "D:\\Anaconda\\envs\\RAM_PHM\\python.exe",
     "python.terminal.activateEnvironment": true,
+    "jupyter.jupyterServerType": "local",
 
     // "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
 }
