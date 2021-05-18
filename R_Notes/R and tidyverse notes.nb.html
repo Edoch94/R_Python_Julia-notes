@@ -215,6 +215,11 @@ pre code {
 
 
 <!-- rnb-text-begin -->
+<div id="pulizia-e-caricamento-librerie-di-base" class="section level4">
+<h4>Pulizia e caricamento librerie di base</h4>
+<!-- rnb-text-end -->
+<!-- rnb-text-begin -->
+</div>
 <div id="uso-di-map-su-lista-contenente-dataframe" class="section level3">
 <h3>Uso di map() su lista contenente dataframe</h3>
 <p>Voglio applicare a ciascun dataframe una funzione che cambia il nome dell’ultima colonna con il nome “nuovo_nome” rename(df, nuovo_nome = last_col())</p>
@@ -239,56 +244,163 @@ list_cars_renamed2 &lt;- map(list_cars, .f = ~.x %&gt;% rename(rank = last_col()
 
 compare(list_cars_renamed, list_cars_renamed2)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoi4oiaIE5vIGRpZmZlcmVuY2VzXG4ifQ== -->
+<pre><code>√ No differences</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="uso-di-sql_render" class="section level3">
-<h3>Uso di sql_render</h3>
+<div id="uso-base-di-dbplyr" class="section level3">
+<h3>Uso base di dbplyr</h3>
 <p>sql_render permette di trasformare codice scritto con tidyverse in codice sql</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KG1hZ3JpdHRyKVxubGlicmFyeShkYnBseXIpXG5cbmNvbiA8LSBEQkk6OmRiQ29ubmVjdChSU1FMaXRlOjpTUUxpdGUoKSwgXCI6bWVtb3J5OlwiKVxuY29weV90byhjb24sIG10Y2Fycylcbm10Y2Fyc19zcWxfY29kZSA8LSB0YmwoY29uLCBcIm10Y2Fyc1wiKVxuREJJOjpkYkRpc2Nvbm5lY3QoY29uKVxuXG4jIG10Y2FycyA8LSBhc190aWJibGUobXRjYXJzKVxubXRjYXJzX3NxbF9jb2RlIDwtIG10Y2Fyc19zcWxfY29kZSAlPiVcbiAgc2VsZWN0KC1nZWFyKSAlPiVcbiAgZ3JvdXBfYnkoY3lsKSAlPiVcbiAgc3VtbWFyaXNlKHd0ID0gbWVhbih3dCkpIFxuXG5zcWxfcmVuZGVyKG10Y2Fyc19zcWxfY29kZSlcblxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KG1hZ3JpdHRyKVxubGlicmFyeShkYnBseXIpXG5gYGAifQ== -->
 <pre class="r"><code>library(tidyverse)
 library(magrittr)
-library(dbplyr)
+library(dbplyr)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog46S847ixZGJwbHly46S847iyXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0cyBhcmUgbWFza2VkIGZyb20g46S847ixcGFja2FnZTpkcGx5cuOkvOO4sjpcblxuICAgIGlkZW50LCBzcWxcbiJ9 -->
+<pre><code>
+Attaching package: 㤼㸱dbplyr㤼㸲
 
+The following objects are masked from 㤼㸱package:dplyr㤼㸲:
+
+    ident, sql</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDcmVhemlvbmUgZSBjb25uZXNzaW9uZSBhIHVuJ2lzdGFuemEgc3FsaXRlIHRlbXBvcmFuZWEgaW4gbWVtb3JpYVxuY29uIDwtIERCSTo6ZGJDb25uZWN0KFJTUUxpdGU6OlNRTGl0ZSgpLCBcIjptZW1vcnk6XCIpXG5cbiMgVXBsb2FkIGluIHNxbGl0ZSBkZWxsYSB0YWJlbGxhIFwibXRjYXJzXCJcbmNvcHlfdG8oY29uLCBtdGNhcnMpXG5cbiMgQ29sbGVnYW1lbnRvIGRlbGxhIHRhYmVsbGEgaW4gc3FsaXRlIGEgdW5hIHRhYmVsbGEgbG9jYWxlXG5tdGNhcnNfc3FsX2NvZGUgPC0gdGJsKGNvbiwgXCJtdGNhcnNcIilcblxuIyBTY3JpdHR1cmEgaW50ZXJyb2dhemlvbmUgZGJcbm10Y2Fyc19zcWxfY29kZV9xdWVyaWVkIDwtIG10Y2Fyc19zcWxfY29kZSAlPiVcbiAgc2VsZWN0KC1nZWFyKSAlPiVcbiAgZ3JvdXBfYnkoY3lsKSAlPiVcbiAgc3VtbWFyaXNlKHd0ID0gbWVhbih3dCkpIFxuXG4jIFJlbmRlcmluZyBkZWwgY29kaWNlIHNxbCBjb3JyaXNwb25kZW50ZSBcbm10Y2Fyc19zcWxfY29kZV9xdWVyaWVkICU+JSBzaG93X3F1ZXJ5KCkgIyBNZXRvZG8gMVxuYGBgIn0= -->
+<pre class="r"><code># Creazione e connessione a un&#39;istanza sqlite temporanea in memoria
 con &lt;- DBI::dbConnect(RSQLite::SQLite(), &quot;:memory:&quot;)
-copy_to(con, mtcars)
-mtcars_sql_code &lt;- tbl(con, &quot;mtcars&quot;)
-DBI::dbDisconnect(con)
 
-# mtcars &lt;- as_tibble(mtcars)
-mtcars_sql_code &lt;- mtcars_sql_code %&gt;%
+# Upload in sqlite della tabella &quot;mtcars&quot;
+copy_to(con, mtcars)
+
+# Collegamento della tabella in sqlite a una tabella locale
+mtcars_sql_code &lt;- tbl(con, &quot;mtcars&quot;)
+
+# Scrittura interrogazione db
+mtcars_sql_code_queried &lt;- mtcars_sql_code %&gt;%
   select(-gear) %&gt;%
   group_by(cyl) %&gt;%
   summarise(wt = mean(wt)) 
 
-sql_render(mtcars_sql_code)
+# Rendering del codice sql corrispondente 
+mtcars_sql_code_queried %&gt;% show_query() # Metodo 1</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTWlzc2luZyB2YWx1ZXMgYXJlIGFsd2F5cyByZW1vdmVkIGluIFNRTC5cblVzZSBgbWVhbih4LCBuYS5ybSA9IFRSVUUpYCB0byBzaWxlbmNlIHRoaXMgd2FybmluZ1xuVGhpcyB3YXJuaW5nIGlzIGRpc3BsYXllZCBvbmx5IG9uY2UgcGVyIHNlc3Npb24uXG4ifQ== -->
+<pre><code>Missing values are always removed in SQL.
+Use `mean(x, na.rm = TRUE)` to silence this warning
+This warning is displayed only once per session.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiPFNRTD5cblNFTEVDVCBgY3lsYCwgQVZHKGB3dGApIEFTIGB3dGBcbkZST00gKFNFTEVDVCBgbXBnYCwgYGN5bGAsIGBkaXNwYCwgYGhwYCwgYGRyYXRgLCBgd3RgLCBgcXNlY2AsIGB2c2AsIGBhbWAsIGBjYXJiYFxuRlJPTSBgbXRjYXJzYClcbkdST1VQIEJZIGBjeWxgXG4ifQ== -->
+<pre><code>&lt;SQL&gt;
+SELECT `cyl`, AVG(`wt`) AS `wt`
+FROM (SELECT `mpg`, `cyl`, `disp`, `hp`, `drat`, `wt`, `qsec`, `vs`, `am`, `carb`
+FROM `mtcars`)
+GROUP BY `cyl`</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2F0KFwiXFxuXCIpXG5gYGAifQ== -->
+<pre class="r"><code>cat(&quot;\n&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3FsX3JlbmRlcihtdGNhcnNfc3FsX2NvZGVfcXVlcmllZCkgIyBNZXRvZG8gMlxuYGBgIn0= -->
+<pre class="r"><code>sql_render(mtcars_sql_code_queried) # Metodo 2</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiPFNRTD4gU0VMRUNUIGBjeWxgLCBBVkcoYHd0YCkgQVMgYHd0YFxuRlJPTSAoU0VMRUNUIGBtcGdgLCBgY3lsYCwgYGRpc3BgLCBgaHBgLCBgZHJhdGAsIGB3dGAsIGBxc2VjYCwgYHZzYCwgYGFtYCwgYGNhcmJgXG5GUk9NIGBtdGNhcnNgKVxuR1JPVVAgQlkgYGN5bGBcbiJ9 -->
+<pre><code>&lt;SQL&gt; SELECT `cyl`, AVG(`wt`) AS `wt`
+FROM (SELECT `mpg`, `cyl`, `disp`, `hp`, `drat`, `wt`, `qsec`, `vs`, `am`, `carb`
+FROM `mtcars`)
+GROUP BY `cyl`</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBSdW4gZGVsbGEgcXVlcnkgaW4gc3FsaXRlXG5tdGNhcnNfc3FsX2NvZGVfcmV0dXJuIDwtIG10Y2Fyc19zcWxfY29kZV9xdWVyaWVkICU+JSBjb2xsZWN0KClcbm10Y2Fyc19zcWxfY29kZV9yZXR1cm5cbmBgYCJ9 -->
+<pre class="r"><code># Run della query in sqlite
+mtcars_sql_code_return &lt;- mtcars_sql_code_queried %&gt;% collect()
+mtcars_sql_code_return</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MywibmNvbCI6Miwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIzIHggMiJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJndHlpVERtaXVCaVlHQmdabUJoWUdWZ1pnVXlHZGljQXd5TlRJMFlHRmlZZ0R4R29Bd25pSzRBcWhJR01rQ0NmQ0F0RGdJTVlPQWdBYVVWR0dBQUlzL2txWjBZMy9UWWdlUDlpeG5LMHFjZCtQK2w4SnR0L1l0bU1HdGVZbTVxTVpBaEFEWWNJc2ljWEprRFpUS1ZsNkRwNEN6S0w5ZUQ2ZUlGS1drQUV2Ly8vOGN3T2prbnNSaG1ORXlRS3lXeEpGRXZyUWlvSDhqN2g2YUZQYitnSkRNL0Q2aUpDZVJaVmpUTmpFVm9BdnlsZVNDWHBPZ21aNVRtWmVzYWd5d0FTME1BTDVUTmpNUm1nbGpKOUI5cUZDdlVLTGJVdlBUTXZGU1kyM01TazFKaFljQUg5REhZdzNvRlJabDVKVENmQUVXTDlVcnlTeEpoNnJpUzgzTmdJbUMvTWZ3REFPSVBWTVhrQVFBQSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["cyl"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["wt"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"4","2":"2.285727"},{"1":"6","2":"3.117143"},{"1":"8","2":"3.999214"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[3]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIERpc2Nvbm5lc3Npb25lIGRhbCBkYXRhYmFzZSBzcWxpdGVcbkRCSTo6ZGJEaXNjb25uZWN0KGNvbilcblxuYGBgIn0= -->
+<pre class="r"><code>
+# Disconnessione dal database sqlite
+DBI::dbDisconnect(con)
 </code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="uso-di-tesseract-e-preprocessamento-con-magick" class="section level3">
-<h3>Uso di tesseract e preprocessamento con magick</h3>
+<div id="uso-base-di-dtplyr" class="section level3">
+<h3>Uso base di dtplyr</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KG1hZ3JpdHRyKVxubGlicmFyeShkYnBseXIpXG5cbmBgYCJ9 -->
+<pre class="r"><code>library(tidyverse)
+library(magrittr)
+library(dbplyr)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="uso-di-tesseract-e-preprocessamento-immagini-con-magick" class="section level3">
+<h3>Uso di tesseract e preprocessamento immagini con magick</h3>
 <p>tesseract permette di trasformare in stringhe il testo contenuto in immagini</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShtYWdpY2spXG5cbmBgYCJ9 -->
-<pre class="r"><code>library(magick)
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KG1hZ3JpdHRyKVxubGlicmFyeSh0ZXNzZXJhY3QpXG5saWJyYXJ5KG1hZ2ljaylcbmBgYCJ9 -->
+<pre class="r"><code>library(tidyverse)
+library(magrittr)
+library(tesseract)
+library(magick)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiTGlua2luZyB0byBJbWFnZU1hZ2ljayA2LjkuMTIuM1xuRW5hYmxlZCBmZWF0dXJlczogY2Fpcm8sIGZyZWV0eXBlLCBmZnR3LCBnaG9zdHNjcmlwdCwgaGVpYywgbGNtcywgcGFuZ28sIHJhdywgcnN2Zywgd2VicFxuRGlzYWJsZWQgZmVhdHVyZXM6IGZvbnRjb25maWcsIHgxMVxuIn0= -->
 <pre><code>Linking to ImageMagick 6.9.12.3
 Enabled features: cairo, freetype, fftw, ghostscript, heic, lcms, pango, raw, rsvg, webp
 Disabled features: fontconfig, x11</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBEb3dubG9hZCBsaW5ndWEgcGVyIGlsIHJpY29ub3NjaW1lbnRvIGRlbCB0ZXN0b1xuIyB0ZXNzZXJhY3Q6OnRlc3NlcmFjdF9kb3dubG9hZChcIml0YVwiKVxuXG4jIENhcmljYW1lbnRvIG5lbGwnZW52IGRlbGxhIGxpbmd1YVxuaXRhX2xhbmcgPC0gdGVzc2VyYWN0Ojp0ZXNzZXJhY3QoXCJpdGFcIilcblxuIyBEZWZpbml6aW9uZSBwZXJjb3JzbyBpbW1hZ2luZVxuaW1nX3BhdGggPC0gZmlsZS5wYXRoKFwiRDpcIixcIkRvY3VtZW50aVwiLFwiR2l0X3JlcG9zaXRvcmllc1wiLFwiUl9QeXRob25fTm90ZXNcIixcIlJfTm90ZXNcIixcIkFsdHJvXCIpXG5cbiMgTGV0dHVyYSB0ZXN0byBuZWxsJ2ltbWFnaW5lXG50ZXN0b19pbW1hZ2luZSA8LSB0ZXNzZXJhY3Q6Om9jcihpbWFnZSA9IGZpbGUucGF0aChpbWdfcGF0aCwgXCJpbW1hZ2luZV90ZXN0XzEucG5nXCIpLCBlbmdpbmUgPSBpdGFfbGFuZylcbnRlc3RvX2ltbWFnaW5lXG5gYGAifQ== -->
+<pre class="r"><code># Download lingua per il riconoscimento del testo
+# tesseract::tesseract_download(&quot;ita&quot;)
+
+# Caricamento nell&#39;env della lingua
+ita_lang &lt;- tesseract::tesseract(&quot;ita&quot;)
+
+# Definizione percorso immagine
+img_path &lt;- file.path(&quot;D:&quot;,&quot;Documenti&quot;,&quot;Git_repositories&quot;,&quot;R_Python_Notes&quot;,&quot;R_Notes&quot;,&quot;Altro&quot;)
+
+# Lettura testo nell&#39;immagine
+testo_immagine &lt;- tesseract::ocr(image = file.path(img_path, &quot;immagine_test_1.png&quot;), engine = ita_lang)
+testo_immagine</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiR2nDoCBuZWxsJ2FudGljaGl0w6AgQXJpc3RvdGVsZSBvc3NlcnbDsiBsYSBwcmVzZW56YSwgbmVsIHZlbnRvIGRlbCBTdWQsIGRpIGdyYW5kZSBxdWFudGl0w6AgZGkgdGVycmEgKE1ldGVvcm9sb2dpYSwgMzU4YSwgMjggc3MuKSwgbWVudHJlIGluIGVwb2NhIG1vZGVybmEgaWwgcHJpbW8gY2FzbyBiZW5cXG5kb2N1bWVudGF0byBmdSBsYSBjb3NpZGRldHRhIFxcXCJwaW9nZ2lhIGRpIHNhbmd1ZVxcXCIsIGFjY2FkdXRhIG5lbCAxOTAxIGUgY2hlIGNvaW52b2xzZSBhbmNoZSBpbCB0ZXJyaXRvcmlvIGRlbGxhIEdlcm1hbmlhIHNldHRlbnRyaW9uYWxlLlxcbkwnaW50ZXJhIEV1cm9wYSDDqCBpbnRlcmVzc2F0YSBkYWwgZmVub21lbm8sIGNoZSBzaSBzcGluZ2UgYmVuIG9sdHJlIGkgcGFlc2kgbWVkaXRlcnJhbmVpLCBwZXIgcmFnZ2l1bmdlcmUgYW5jaGUgcXVlbGxpIHNjYW5kaW5hdmkuXFxuXCJcbiJ9 -->
+<pre><code>[1] &quot;Già nell&#39;antichità Aristotele osservò la presenza, nel vento del Sud, di grande quantità di terra (Meteorologia, 358a, 28 ss.), mentre in epoca moderna il primo caso ben\ndocumentato fu la cosiddetta \&quot;pioggia di sangue\&quot;, accaduta nel 1901 e che coinvolse anche il territorio della Germania settentrionale.\nL&#39;intera Europa è interessata dal fenomeno, che si spinge ben oltre i paesi mediterranei, per raggiungere anche quelli scandinavi.\n&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBJbmZvcm1hemlvbmkgcmlndWFyZG8gbGEnYXR0ZW5kaWJpbGl0w6AgZGVsbGEgbGV0dHVyYSBkZWxsJ2ltbWFnaW5lXG50ZXN0b19pbW1hZ2luZV9pbmZvIDwtIHRlc3NlcmFjdDo6b2NyX2RhdGEoaW1hZ2UgPSBmaWxlLnBhdGgoaW1nX3BhdGgsIFwiaW1tYWdpbmVfdGVzdF8xLnBuZ1wiKSwgZW5naW5lID0gaXRhX2xhbmcpXG50ZXN0b19pbW1hZ2luZV9pbmZvXG5gYGAifQ== -->
+<pre class="r"><code># Informazioni riguardo la&#39;attendibilità della lettura dell&#39;immagine
+testo_immagine_info &lt;- tesseract::ocr_data(image = file.path(img_path, &quot;immagine_test_1.png&quot;), engine = ita_lang)
+testo_immagine_info</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NjUsIm5jb2wiOjMsInN1bW1hcnkiOnsiQSB0aWJibGUiOlsiNjUgeCAzIl19fSwicmRmIjoiSDRzSUFBQUFBQUFBQm0yWFRZZ2NSUmlHZTJkbk5ydXptVjBoUncvR0xKakV6STVkMVZWZDFaajlpVkVDUVlPYW1KMkRCM3U3YTJjYlo3b24zVE9iNENsSDhTQjQ4dURGUzBDOEJEeUpDRXB5RWkrZVJVSkFSTUZMeElNa1NOYXZxcnE2YTNkZEdLcjY2ZmY3cmFxWjJyZGY3WHZ0ZnR0eG5GbW42YlNjMlJaTW5ibUxieUpNc2VNMEcvQTBBMjhXNUhnTFZDZVUxSEdlZ2M4RitNZ1h6VXZKL2MvTCtYSXFoc1BUWVRwSm90MWtBbGpidGkva1NUSEpKbUlvU3VGOFZoUWkzN3YvVmFsb0RNTnl0akRPUlNIU0Q4SnVDV2JCWnpsdDdZbDBraGtlVjd4NWRSb2JlU05PeXRuY0lBL1QyRVJjdURHVmVkVkoxY0xXUk9TNWliOTA1ZzB4RVZtZURiTkJVaVhSOGlpdkhocVlHMXdVdmJNR3o0MGd1MXdZVVpJYWtSaG5rWEYvYkpURklrL0RTbFhWTnM2VGthbXRHWVZGVmVlMk1KNFc0eXlheWloaDFZWEd6dlJJQzl0UlZpUnhMQ1lUUStaUGpaTnNBUFVjcVgyK0NOUEJWSnd5UmN5SFVSVEcwOHJTNm40VEJTNHl1OEdVT1J2dG11bENsQ1hwWGpZc0RHaUZhZjIycnJRdDI1MU1zand4UmJSZ0thdnM1eStKZkJTbVZhN0xCUlFpTzV0a2FUZ1VQU043L1hTU2dpY2ptM3R0bW1manNGenR4djB2VE0rVVNoUkZXTmNVaHlhWGhSMlJadERSckh1MG5rWlI3YVJpbktRRGNYUkJXdG13WHZHWmFqK05RMUhaZGtZaVR0UUdTMFZTUlJtTDNPU1hoN0F3VTNDZi8yL2Y1bTVNb1RuRzIySVJ3WjVPMG5BdjZjbk5Lcy9oWmgvZmZROG1tMXUveDkrcjhjNWxlU0EzKytmT3F1Zit5b3A2MzM5NTQ3WWV2OVh2WDNyd1VJMytpVTAxbnAvVHVvMDcydTdGZTFyWEcyaTdqVC9WZVAwUG9lTmN1WFpTamVjKzF2R3ZOaFMvL2t1dS9hejhwSFdQYnpycStmbTdLdDdXcCt2S3J2L3NTYzFYcitsNDY2dU9QYjd6dzBjcTN0YURKdy90c2IrRzlQakNEUjNuWktqOVlhTHRPNS9vZXBiL1BqaHVubklPalB4UldmYzN1cjZaTTRwdi9UVlZmT3ZSU0w5ZksvbXY3MnE3TTA5MDNMVXZkZHpOSDh2K1hOYnYxejdVOVhpM2RmL08vNnZIdFphdTU1L250UDM2RlYzSCttZGEzM3VzKy9uYlBmMmVmYTFILzdvZWU2K1U2M2RSai80bDNkK2YzNUo1T3VaN3VkemFmcGQzUGR6RjVzd3VlaHdJOHJ3YUhVZUtZWVFzaHBHMHhJelpqSHVTQmJSbUhjOUZYVEQwbU4vRjFBZzlKU1N1SlR4T2tDc1p0UU1UR2tqRzdjQ0VNMkFVQXlPR1VTd1RwTVMxZEpUSUJIM1h0ZUw2RUJHWXoyekdzR1RjenNVUFpDNE0reFpqbnRSeGdpMWJUbVJjSHRpNThFRG1GeURiTm9Cc2djbmFqRzBuOEdVTTVDSlNDNWZnTVZEVVhwSmxlR1N5aWNqbHBQWUFZcFVtUXBUYkxwQlBGR1h1QWNwa1dnaGpxeC9MOEVpVlkreGpXNHg5TGJaWGN0SHZlajZrd0xva01EVWd1YklBd1lzRklYY0pDYkVoZFNYRU9MQWc5b2lDMERIcTFSdEdtWHZJOXVsaFplN3hBOHBBbVJQZkRrU1lVcElBMnpBSUpLU2VyYVN3bEY3UXBSVFprS295S1QrZzVNcmM5MjJmY2hjQlpNaFdNcDJuM0RrVzFBMWhnUTI1cTFySFBidWZuS2lLQW1SMWFTbUE3cXJPdzVtc2FCdlNJVjFJaUxGcTAzS0pFSWFqVlowK1dFSUY0UUJYd281Y0dZQVkyMUN1aFlSUXZ3VWhBRUNQZ0UrM2Fqc3NwWVRNTnBjbldrSllraG9TVnlrSmRMaE9pVkNtSUJ3NFN3bEhDQ0RGdGpuMWxEbUZ1bTJvS3FJc3NIeFNjQ2Jid1gwclR4KzJBS3dSUTh4U01xenk1TEM3YXNpeENzUjl1eUxPbERKQVZqK1g1TXJJZnJxdXl2N2c1YmVWaGlOUmxGK3dzK1krZERQTDQvcktsZTRrc1Vnajg3dmQzTjdPYmgxeXM1Qm5OM3ZHVlFjK0Rmazl2cisvLzkzaGVORXdMRXc4QTlzeFhHRjZPem5ZdzlQVFF5YkhzdkVFYmtoZzFKQzM5TlloNDVuOEVGaWVwaktUZURYYW5hYnZyMUlaUUwzV2Y1MXlmc0dheitxUWpmM1NWY3RjVVVRNlNOTHE5aklNdDZzNzR4SlVyQXJ1d2ZVMm5aaEtnQlk5K0llZ3VvZEIvNGFHcU5xY3AvOEJVSnBnWHAwTUFBQT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["word"],"name":[1],"type":["chr"],"align":["left"]},{"label":["confidence"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["bbox"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"GiÃ","2":"96.79195","3":"6,8,32,21"},{"1":"nell'antichitÃ","2":"95.61552","3":"38,8,133,21"},{"1":"Aristotele","2":"94.58268","3":"138,8,211,21"},{"1":"osservÃ²","2":"96.67442","3":"216,8,277,21"},{"1":"la","2":"96.54903","3":"283,8,295,21"},{"1":"presenza,","2":"96.92575","3":"301,11,376,25"},{"1":"nel","2":"96.93339","3":"383,8,405,21"},{"1":"vento","2":"96.74798","3":"410,8,453,21"},{"1":"del","2":"96.84492","3":"459,8,481,21"},{"1":"Sud,","2":"96.93789","3":"487,8,521,24"},{"1":"di","2":"96.99449","3":"528,8,540,21"},{"1":"grande","2":"96.66813","3":"546,8,600,25"},{"1":"quantitÃ","2":"96.72507","3":"605,8,667,25"},{"1":"di","2":"96.99875","3":"672,8,685,21"},{"1":"terra","2":"91.63121","3":"690,8,726,21"},{"1":"(Meteorologia,","2":"93.22388","3":"732,8,842,25"},{"1":"358a,","2":"92.68056","3":"848,8,891,24"},{"1":"28","2":"93.29704","3":"897,8,916,21"},{"1":"ss.),","2":"91.44448","3":"921,8,953,25"},{"1":"mentre","2":"96.55962","3":"960,8,1014,21"},{"1":"in","2":"95.89789","3":"1019,8,1032,21"},{"1":"epoca","2":"96.52636","3":"1037,11,1084,25"},{"1":"moderna","2":"94.36317","3":"1090,8,1158,21"},{"1":"il","2":"96.42383","3":"1164,8,1170,21"},{"1":"primo","2":"96.70830","3":"1177,8,1220,25"},{"1":"caso","2":"96.97150","3":"1225,11,1262,21"},{"1":"ben","2":"96.97150","3":"1267,8,1295,21"},{"1":"documentato","2":"87.14908","3":"6,36,107,49"},{"1":"fu","2":"95.48406","3":"111,36,125,49"},{"1":"la","2":"95.48406","3":"132,36,144,49"},{"1":"cosiddetta","2":"96.95617","3":"150,36,229,49"},{"1":"\"pioggia","2":"96.60067","3":"234,36,297,53"},{"1":"di","2":"96.50593","3":"302,36,315,49"},{"1":"sangue\",","2":"96.78442","3":"320,36,387,53"},{"1":"accaduta","2":"96.21199","3":"394,36,464,49"},{"1":"nel","2":"96.24922","3":"470,36,492,49"},{"1":"1901","2":"96.24922","3":"499,36,534,49"},{"1":"e","2":"97.00208","3":"542,39,551,49"},{"1":"che","2":"97.00208","3":"556,36,584,49"},{"1":"coinvolse","2":"96.88966","3":"589,36,662,49"},{"1":"anche","2":"96.94888","3":"667,36,714,49"},{"1":"il","2":"96.01807","3":"720,36,726,49"},{"1":"territorio","2":"95.77278","3":"732,36,796,49"},{"1":"della","2":"95.75667","3":"801,36,837,49"},{"1":"Germania","2":"96.95557","3":"844,36,919,49"},{"1":"settentrionale.","2":"95.55249","3":"925,36,1033,49"},{"1":"L'intera","2":"96.64028","3":"6,64,62,77"},{"1":"Europa","2":"96.96351","3":"68,64,123,81"},{"1":"Ã¨","2":"97.01242","3":"129,64,138,77"},{"1":"interessata","2":"96.98889","3":"144,64,228,77"},{"1":"dal","2":"96.96147","3":"234,64,256,77"},{"1":"fenomeno,","2":"96.80473","3":"262,64,343,80"},{"1":"che","2":"96.95292","3":"350,64,378,77"},{"1":"si","2":"96.95346","3":"383,64,394,77"},{"1":"spinge","2":"95.86129","3":"400,64,451,81"},{"1":"ben","2":"96.97356","3":"457,64,485,77"},{"1":"oltre","2":"96.97826","3":"491,64,524,77"},{"1":"i","2":"96.73396","3":"530,64,533,77"},{"1":"paesi","2":"95.58999","3":"539,64,579,81"},{"1":"mediterranei,","2":"96.87063","3":"585,64,686,80"},{"1":"per","2":"96.84902","3":"692,67,717,81"},{"1":"raggiungere","2":"96.72281","3":"723,64,815,81"},{"1":"anche","2":"96.92599","3":"820,64,868,77"},{"1":"quelli","2":"96.84813","3":"873,64,913,81"},{"1":"scandinavi.","2":"95.41121","3":"919,64,1005,77"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[65]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIFByZXByb2Nlc3NhbWVudG8gaW1tYWdpbmUgY29uIG1hZ2lja1xuXG5cblxuYGBgIn0= -->
+<pre class="r"><code>
+# Preprocessamento immagine con magick
+</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgYW5kIHRpZHl2ZXJzZSBub3RlcyINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCiMjIyBVc28gZGkgbWFwKCkgc3UgbGlzdGEgY29udGVuZW50ZSBkYXRhZnJhbWUNClZvZ2xpbyBhcHBsaWNhcmUgYSBjaWFzY3VuIGRhdGFmcmFtZSB1bmEgZnVuemlvbmUgY2hlIGNhbWJpYSBpbCBub21lIGRlbGwndWx0aW1hIGNvbG9ubmEgY29uIGlsIG5vbWUgIm51b3ZvX25vbWUiIHJlbmFtZShkZiwgbnVvdm9fbm9tZSA9IGxhc3RfY29sKCkpDQpgYGB7cn0NCmxpYnJhcnkodGlkeXZlcnNlKQ0KbGlicmFyeShtYWdyaXR0cikNCmxpYnJhcnkod2FsZG8pDQpkYXRhKG10Y2FycykNCg0KZGYxIDwtIHRhaWwobXRjYXJzKQ0KZGYyIDwtIG10Y2Fyc1sxOjUsIDI6MTBdDQpkZjMgPC0gbXRjYXJzDQpkZjQgPC0gaGVhZChtdGNhcnMpDQpsaXN0X2NhcnMgPC0gbGlzdChkZjEsIGRmMiwgZGYzLCBkZjQpDQoNCmxpc3RfY2Fyc19yZW5hbWVkIDwtIG1hcChsaXN0X2NhcnMsIC5mID0gfnsueCAlPiUgcmVuYW1lKHJhbmsgPSBsYXN0X2NvbCgpKX0pDQoNCiMgVW5hIGFsdGVybmF0aXZhIHByYXRpY2FtZW50ZSBpZGVudGljYSDDqCBsYSBzZWd1ZW50ZQ0KbGlzdF9jYXJzX3JlbmFtZWQyIDwtIG1hcChsaXN0X2NhcnMsIC5mID0gfi54ICU+JSByZW5hbWUocmFuayA9IGxhc3RfY29sKCkpKQ0KDQpjb21wYXJlKGxpc3RfY2Fyc19yZW5hbWVkLCBsaXN0X2NhcnNfcmVuYW1lZDIpDQpgYGANCg0KIyMjIFVzbyBkaSBzcWxfcmVuZGVyIA0Kc3FsX3JlbmRlciBwZXJtZXR0ZSBkaSB0cmFzZm9ybWFyZSBjb2RpY2Ugc2NyaXR0byBjb24gdGlkeXZlcnNlIGluIGNvZGljZSBzcWwNCmBgYHtyfQ0KbGlicmFyeSh0aWR5dmVyc2UpDQpsaWJyYXJ5KG1hZ3JpdHRyKQ0KbGlicmFyeShkYnBseXIpDQoNCmNvbiA8LSBEQkk6OmRiQ29ubmVjdChSU1FMaXRlOjpTUUxpdGUoKSwgIjptZW1vcnk6IikNCmNvcHlfdG8oY29uLCBtdGNhcnMpDQptdGNhcnNfc3FsX2NvZGUgPC0gdGJsKGNvbiwgIm10Y2FycyIpDQpEQkk6OmRiRGlzY29ubmVjdChjb24pDQoNCiMgbXRjYXJzIDwtIGFzX3RpYmJsZShtdGNhcnMpDQptdGNhcnNfc3FsX2NvZGUgPC0gbXRjYXJzX3NxbF9jb2RlICU+JQ0KICBzZWxlY3QoLWdlYXIpICU+JQ0KICBncm91cF9ieShjeWwpICU+JQ0KICBzdW1tYXJpc2Uod3QgPSBtZWFuKHd0KSkgDQoNCnNxbF9yZW5kZXIobXRjYXJzX3NxbF9jb2RlKQ0KDQpgYGANCg0KDQojIyMgVXNvIGRpIHRlc3NlcmFjdCBlIHByZXByb2Nlc3NhbWVudG8gY29uIG1hZ2ljaw0KdGVzc2VyYWN0IHBlcm1ldHRlIGRpIHRyYXNmb3JtYXJlIGluIHN0cmluZ2hlIGlsIHRlc3RvIGNvbnRlbnV0byBpbiBpbW1hZ2luaQ0KYGBge3J9DQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCmxpYnJhcnkobWFncml0dHIpDQpsaWJyYXJ5KHRlc3NlcmFjdCkNCmxpYnJhcnkobWFnaWNrKQ0KDQojIERvd25sb2FkIGxpbmd1YSBwZXIgaWwgcmljb25vc2NpbWVudG8gZGVsIHRlc3RvDQojIHRlc3NlcmFjdDo6dGVzc2VyYWN0X2Rvd25sb2FkKCJpdGEiKQ0KDQojIENhcmljYW1lbnRvIG5lbGwnZW52IGRlbGxhIGxpbmd1YQ0KaXRhX2xhbmcgPC0gdGVzc2VyYWN0Ojp0ZXNzZXJhY3QoIml0YSIpDQoNCiMgRGVmaW5pemlvbmUgcGVyY29yc28gaW1tYWdpbmUNCmltZ19wYXRoIDwtIGZpbGUucGF0aCgiRDoiLCJEb2N1bWVudGkiLCJHaXRfcmVwb3NpdG9yaWVzIiwiUl9QeXRob25fTm90ZXMiLCJSX05vdGVzIiwiQWx0cm8iKQ0KDQojIExldHR1cmEgdGVzdG8gbmVsbCdpbW1hZ2luZQ0KdGVzdG9faW1tYWdpbmUgPC0gdGVzc2VyYWN0OjpvY3IoaW1hZ2UgPSBmaWxlLnBhdGgoaW1nX3BhdGgsICJpbW1hZ2luZV90ZXN0XzEucG5nIiksIGVuZ2luZSA9IGl0YV9sYW5nKQ0KdGVzdG9faW1tYWdpbmUNCg0KIyBJbmZvcm1hemlvbmkgcmlndWFyZG8gbGEnYXR0ZW5kaWJpbGl0w6AgZGVsbGEgbGV0dHVyYSBkZWxsJ2ltbWFnaW5lDQp0ZXN0b19pbW1hZ2luZV9pbmZvIDwtIHRlc3NlcmFjdDo6b2NyX2RhdGEoaW1hZ2UgPSBmaWxlLnBhdGgoaW1nX3BhdGgsICJpbW1hZ2luZV90ZXN0XzEucG5nIiksIGVuZ2luZSA9IGl0YV9sYW5nKQ0KdGVzdG9faW1tYWdpbmVfaW5mbw0KDQojIFByZXByb2Nlc3NhbWVudG8gaW1tYWdpbmUgY29uIG1hZ2ljaw0KDQoNCg0KYGBgDQoNCg0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgYW5kIHRpZHl2ZXJzZSBub3RlcyINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCiMjIyMgUHVsaXppYSBlIGNhcmljYW1lbnRvIGxpYnJlcmllIGRpIGJhc2UNCmBgYHtyIGluY2x1ZGU9RkFMU0V9DQpybShsaXN0ID0gbHMoKSkNCg0KbGlicmFyeSh0aWR5dmVyc2UpDQpsaWJyYXJ5KG1hZ3JpdHRyKQ0KDQpgYGANCg0KDQojIyMgVXNvIGRpIG1hcCgpIHN1IGxpc3RhIGNvbnRlbmVudGUgZGF0YWZyYW1lDQpWb2dsaW8gYXBwbGljYXJlIGEgY2lhc2N1biBkYXRhZnJhbWUgdW5hIGZ1bnppb25lIGNoZSBjYW1iaWEgaWwgbm9tZSBkZWxsJ3VsdGltYSBjb2xvbm5hIGNvbiBpbCBub21lICJudW92b19ub21lIiByZW5hbWUoZGYsIG51b3ZvX25vbWUgPSBsYXN0X2NvbCgpKQ0KYGBge3J9DQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCmxpYnJhcnkobWFncml0dHIpDQpsaWJyYXJ5KHdhbGRvKQ0KZGF0YShtdGNhcnMpDQoNCmRmMSA8LSB0YWlsKG10Y2FycykNCmRmMiA8LSBtdGNhcnNbMTo1LCAyOjEwXQ0KZGYzIDwtIG10Y2Fycw0KZGY0IDwtIGhlYWQobXRjYXJzKQ0KbGlzdF9jYXJzIDwtIGxpc3QoZGYxLCBkZjIsIGRmMywgZGY0KQ0KDQpsaXN0X2NhcnNfcmVuYW1lZCA8LSBtYXAobGlzdF9jYXJzLCAuZiA9IH57LnggJT4lIHJlbmFtZShyYW5rID0gbGFzdF9jb2woKSl9KQ0KDQojIFVuYSBhbHRlcm5hdGl2YSBwcmF0aWNhbWVudGUgaWRlbnRpY2Egw6ggbGEgc2VndWVudGUNCmxpc3RfY2Fyc19yZW5hbWVkMiA8LSBtYXAobGlzdF9jYXJzLCAuZiA9IH4ueCAlPiUgcmVuYW1lKHJhbmsgPSBsYXN0X2NvbCgpKSkNCg0KY29tcGFyZShsaXN0X2NhcnNfcmVuYW1lZCwgbGlzdF9jYXJzX3JlbmFtZWQyKQ0KYGBgDQoNCiMjIyBVc28gYmFzZSBkaSBkYnBseXIgDQpzcWxfcmVuZGVyIHBlcm1ldHRlIGRpIHRyYXNmb3JtYXJlIGNvZGljZSBzY3JpdHRvIGNvbiB0aWR5dmVyc2UgaW4gY29kaWNlIHNxbA0KYGBge3J9DQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCmxpYnJhcnkobWFncml0dHIpDQpsaWJyYXJ5KGRicGx5cikNCg0KIyBDcmVhemlvbmUgZSBjb25uZXNzaW9uZSBhIHVuJ2lzdGFuemEgc3FsaXRlIHRlbXBvcmFuZWEgaW4gbWVtb3JpYQ0KY29uIDwtIERCSTo6ZGJDb25uZWN0KFJTUUxpdGU6OlNRTGl0ZSgpLCAiOm1lbW9yeToiKQ0KDQojIFVwbG9hZCBpbiBzcWxpdGUgZGVsbGEgdGFiZWxsYSAibXRjYXJzIg0KY29weV90byhjb24sIG10Y2FycykNCg0KIyBDb2xsZWdhbWVudG8gZGVsbGEgdGFiZWxsYSBpbiBzcWxpdGUgYSB1bmEgdGFiZWxsYSBsb2NhbGUNCm10Y2Fyc19zcWxfY29kZSA8LSB0YmwoY29uLCAibXRjYXJzIikNCg0KIyBTY3JpdHR1cmEgaW50ZXJyb2dhemlvbmUgZGINCm10Y2Fyc19zcWxfY29kZV9xdWVyaWVkIDwtIG10Y2Fyc19zcWxfY29kZSAlPiUNCiAgc2VsZWN0KC1nZWFyKSAlPiUNCiAgZ3JvdXBfYnkoY3lsKSAlPiUNCiAgc3VtbWFyaXNlKHd0ID0gbWVhbih3dCkpIA0KDQojIFJlbmRlcmluZyBkZWwgY29kaWNlIHNxbCBjb3JyaXNwb25kZW50ZSANCm10Y2Fyc19zcWxfY29kZV9xdWVyaWVkICU+JSBzaG93X3F1ZXJ5KCkgIyBNZXRvZG8gMQ0KDQpzcWxfcmVuZGVyKG10Y2Fyc19zcWxfY29kZV9xdWVyaWVkKSAjIE1ldG9kbyAyDQoNCiMgUnVuIGRlbGxhIHF1ZXJ5IGluIHNxbGl0ZQ0KbXRjYXJzX3NxbF9jb2RlX3JldHVybiA8LSBtdGNhcnNfc3FsX2NvZGVfcXVlcmllZCAlPiUgY29sbGVjdCgpDQptdGNhcnNfc3FsX2NvZGVfcmV0dXJuDQoNCiMgRGlzY29ubmVzc2lvbmUgZGFsIGRhdGFiYXNlIHNxbGl0ZQ0KREJJOjpkYkRpc2Nvbm5lY3QoY29uKQ0KDQpgYGANCg0KIyMjIFVzbyBiYXNlIGRpIGR0cGx5ciANCmBgYHtyfQ0KbGlicmFyeSh0aWR5dmVyc2UpDQpsaWJyYXJ5KG1hZ3JpdHRyKQ0KbGlicmFyeShkYnBseXIpDQoNCmBgYA0KDQoNCg0KIyMjIFVzbyBkaSB0ZXNzZXJhY3QgZSBwcmVwcm9jZXNzYW1lbnRvIGltbWFnaW5pIGNvbiBtYWdpY2sNCnRlc3NlcmFjdCBwZXJtZXR0ZSBkaSB0cmFzZm9ybWFyZSBpbiBzdHJpbmdoZSBpbCB0ZXN0byBjb250ZW51dG8gaW4gaW1tYWdpbmkNCmBgYHtyfQ0KbGlicmFyeSh0aWR5dmVyc2UpDQpsaWJyYXJ5KG1hZ3JpdHRyKQ0KbGlicmFyeSh0ZXNzZXJhY3QpDQpsaWJyYXJ5KG1hZ2ljaykNCg0KIyBEb3dubG9hZCBsaW5ndWEgcGVyIGlsIHJpY29ub3NjaW1lbnRvIGRlbCB0ZXN0bw0KIyB0ZXNzZXJhY3Q6OnRlc3NlcmFjdF9kb3dubG9hZCgiaXRhIikNCg0KIyBDYXJpY2FtZW50byBuZWxsJ2VudiBkZWxsYSBsaW5ndWENCml0YV9sYW5nIDwtIHRlc3NlcmFjdDo6dGVzc2VyYWN0KCJpdGEiKQ0KDQojIERlZmluaXppb25lIHBlcmNvcnNvIGltbWFnaW5lDQppbWdfcGF0aCA8LSBmaWxlLnBhdGgoIkQ6IiwiRG9jdW1lbnRpIiwiR2l0X3JlcG9zaXRvcmllcyIsIlJfUHl0aG9uX05vdGVzIiwiUl9Ob3RlcyIsIkFsdHJvIikNCg0KIyBMZXR0dXJhIHRlc3RvIG5lbGwnaW1tYWdpbmUNCnRlc3RvX2ltbWFnaW5lIDwtIHRlc3NlcmFjdDo6b2NyKGltYWdlID0gZmlsZS5wYXRoKGltZ19wYXRoLCAiaW1tYWdpbmVfdGVzdF8xLnBuZyIpLCBlbmdpbmUgPSBpdGFfbGFuZykNCnRlc3RvX2ltbWFnaW5lDQoNCiMgSW5mb3JtYXppb25pIHJpZ3VhcmRvIGwnYXR0ZW5kaWJpbGl0w6AgZGVsbGEgbGV0dHVyYSBkZWxsJ2ltbWFnaW5lDQp0ZXN0b19pbW1hZ2luZV9pbmZvIDwtIHRlc3NlcmFjdDo6b2NyX2RhdGEoaW1hZ2UgPSBmaWxlLnBhdGgoaW1nX3BhdGgsICJpbW1hZ2luZV90ZXN0XzEucG5nIiksIGVuZ2luZSA9IGl0YV9sYW5nKQ0KdGVzdG9faW1tYWdpbmVfaW5mbw0KDQojIFByZXByb2Nlc3NhbWVudG8gaW1tYWdpbmUgY29uIG1hZ2ljaw0KDQoNCg0KYGBgDQoNCg0K</div>
 
 
 
