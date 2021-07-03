@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "D:\\Anaconda\\envs\\conda_env_1\\python.exe",
+    "python.defaultInterpreterPath": "D:\\Anaconda\\envs\\conda_env_1\\python.exe",
     "python.terminal.activateEnvironment": true,
     "jupyter.jupyterServerType": "local",
 
