@@ -1,0 +1,138 @@
+---
+title: "R and tidyverse notes"
+output:
+  html_document:
+    toc: true
+    theme: united
+---
+
+#### Pulizia e caricamento librerie di base
+```{r include=FALSE}
+rm(list = ls())
+
+library(tidyverse)
+library(magrittr)
+
+```
+
+
+### Uso di map() su lista contenente dataframe
+Voglio applicare a ciascun dataframe una funzione che cambia il nome dell'ultima colonna con il nome "nuovo_nome" rename(df, nuovo_nome = last_col())
+```{r}
+library(tidyverse)
+library(magrittr)
+library(waldo)
+data(mtcars)
+
+df1 <- tail(mtcars)
+df2 <- mtcars[1:5, 2:10]
+df3 <- mtcars
+df4 <- head(mtcars)
+list_cars <- list(df1, df2, df3, df4)
+
+list_cars_renamed <- map(list_cars, .f = ~{.x %>% rename(rank = last_col())})
+
+# Una alternativa praticamente identica è la seguente
+list_cars_renamed2 <- map(list_cars, .f = ~.x %>% rename(rank = last_col()))
+
+compare(list_cars_renamed, list_cars_renamed2)
+```
+
+### Uso base di dbplyr 
+sql_render permette di trasformare codice scritto con tidyverse in codice sql
+```{r}
+library(tidyverse)
+library(magrittr)
+library(dbplyr)
+data(mtcars)
+
+# Creazione e connessione a un'istanza sqlite temporanea in memoria
+con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+
+# Upload in sqlite della tabella "mtcars"
+copy_to(con, mtcars)
+
+# Collegamento della tabella in sqlite a una tabella locale
+mtcars_sql_code <- tbl(con, "mtcars")
+
+# Scrittura interrogazione db
+mtcars_sql_code_queried <- mtcars_sql_code %>%
+  select(-gear) %>%
+  group_by(cyl) %>%
+  summarise(wt = mean(wt)) 
+
+# Rendering del codice sql corrispondente 
+mtcars_sql_code_queried %>% show_query() # Metodo 1
+
+sql_render(mtcars_sql_code_queried) # Metodo 2
+
+# Run della query in sqlite
+mtcars_sql_code_return <- mtcars_sql_code_queried %>% collect()
+mtcars_sql_code_return
+
+# Disconnessione dal database sqlite
+DBI::dbDisconnect(con)
+
+```
+
+### Uso base di dtplyr 
+dtplyr permette di tradurre codice scritto in dplyr in codice per il pacchetto data.table (più performante)
+```{r}
+library(tidyverse)
+library(magrittr)
+library(dtplyr)
+library(data.table)
+data(mtcars)
+
+# Carico la tabella su una lazy dt
+dt_mtcars <- lazy_dt(mtcars, immutable = F) # il parametro immutable obbliga dtplyr a non creare copie della dt, cosa che succede se il codice dplyr contiene dei mutate che vanno a modificare campi esistenti 
+
+# Definisco, senza lanciare, una trasformazione della tabella 
+dt_mtcars_queried <- dt_mtcars %>% 
+  select(-gear) %>%
+  group_by(cyl) %>%
+  summarise(wt = mean(wt)) 
+
+# Visualizzo il codice data.table sottostante
+dt_mtcars_queried %>% show_query()
+
+# Applico la trasformazione
+dt_mtcars_queried %>% as_tibble()
+
+
+```
+
+
+
+### Uso di tesseract e preprocessamento immagini con magick
+tesseract permette di trasformare in stringhe il testo contenuto in immagini
+```{r}
+library(tidyverse)
+library(magrittr)
+library(tesseract)
+library(magick)
+
+# Download lingua per il riconoscimento del testo
+# tesseract::tesseract_download("ita")
+
+# Caricamento nell'env della lingua
+ita_lang <- tesseract::tesseract("ita")
+
+# Definizione percorso immagine
+img_path <- file.path("D:","Documenti","Git_repositories","R_Python_Notes","R_Notes","Altro")
+
+# Lettura testo nell'immagine
+testo_immagine <- tesseract::ocr(image = file.path(img_path, "immagine_test_1.png"), engine = ita_lang)
+testo_immagine
+
+# Informazioni riguardo l'attendibilità della lettura dell'immagine
+testo_immagine_info <- tesseract::ocr_data(image = file.path(img_path, "immagine_test_1.png"), engine = ita_lang)
+testo_immagine_info
+
+# Preprocessamento immagine con magick
+
+
+
+```
+
+
