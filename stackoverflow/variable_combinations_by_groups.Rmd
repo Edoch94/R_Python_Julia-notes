@@ -6,35 +6,28 @@ output: html_notebook
 Answer for <https://stackoverflow.com/questions/72912733/determining-all-possible-combinations-of-items-with-a-grouping-variable-allowin>
 
 ```{r}
+
 rm(list = ls())
 
-
 library(magrittr)
+
 ```
 
 ```{r}
+
 original_groups <- list(
-  group_1 = as.character(1:4), 
-  group_2 = as.character(5:8), 
-  group_3 = as.character(9:13)
+  group_1 = as.character(1:5), 
+  group_2 = as.character(6:10), 
+  group_3 = as.character(11:16)
   # group_4 = as.character(13:16)
 )
+# original_groups <- list(
+#   group_1 = as.character(1:2), 
+#   group_2 = as.character(3:5)
+# )
 
-original_groups <- list(
-  group_1 = as.character(1:3), 
-  group_2 = as.character(4:6), 
-  group_3 = as.character(7:10)
-  # group_4 = as.character(13:16)
-)
+print(original_groups)
 
-original_groups <- list(
-  group_1 = as.character(1:2), 
-  group_2 = as.character(3:5)
-)
-
-print(original_groups[1])
-print(original_groups[2])
-# print(original_groups[4])
 ```
 
 
@@ -75,8 +68,144 @@ permutations <- function(vec, sublen, prev_vec=NULL){
   
 }
 
-out <- permutations(list(1,2,3),2)
-out
+# out <- permutations(list(1,2,3),2)
+# out
+
+```
+
+
+
+```{r}
+
+find_matrix <- function(x) {
+  if (is.matrix(x))
+    return(list(x))
+  if (!is.list(x))
+    return(NULL)
+  unlist(lapply(x, find_matrix), FALSE)
+}
+
+```
+
+
+
+```{r}
+
+compatible_rows <- function(df,row_value){
+  row_ids <- c()
+  if(is.null(nrow(df))){
+    return(NULL)
+  } else {
+    for (row_id in 1:nrow(df)){
+      row_ids <- c(row_ids,!any(row_value %in% df[row_id,]))
+    }
+    return(df[which(row_ids),])
+  }
+}
+
+```
+
+
+```{r}
+
+new_groups_list <- function(df, prev_df=NULL, lvl=-1, verbose=F){
+  
+  lvl <- lvl+1
+
+  results_list <- list()
+  
+  if(is.null(nrow(df))){
+    if(verbose==T) cat(paste0("--BRANCH END (BEGIN lvl ",lvl,")--\n"))
+    prev_df0 <- rbind(prev_df,df)
+    rownames(prev_df0) <- NULL
+    if(verbose==T)  cat("returned\n")
+    if(verbose==T)  print(prev_df0)
+    if(verbose==T)  cat("\n")
+    return(prev_df0)
+  }
+  
+  if(nrow(df)==0){
+    if(verbose==T) cat(paste0("--BRANCH END (BEGIN lvl ",lvl,")--\n"))
+    prev_df0 <- rbind(prev_df,df)
+    rownames(prev_df0) <- NULL
+    if(verbose==T)  cat("returned\n")
+    if(verbose==T)  print(prev_df0)
+    if(verbose==T)  cat("\n")
+    return(prev_df0)
+  }
+  
+  for(row_id in 1:nrow(df)){
+    
+    if(verbose==T)  cat(paste("-- lvl",lvl,"cycle",row_id,"--\n"))
+    
+    if(verbose==T)  cat("initial results list\n")
+    
+    if(verbose==T)  print(results_list)
+    if(verbose==T)  cat("\n")
+    
+    if(verbose==T)  cat("df in\n")
+    if(verbose==T)  assign("last_df",df,envir = .GlobalEnv)
+    if(verbose==T)  print(df)
+    if(verbose==T)  cat("\n")
+    
+    if(is.null(nrow(df))){
+      prev_df0 <- rbind(prev_df,df)
+      rownames(prev_df0) <- NULL
+      if(verbose==T)  cat(paste0("--BRANCH END (MID lvl ",lvl,")--\n"))
+      if(verbose==T)  cat("returned\n")
+      results_list <- append(results_list,list(prev_df0))
+      if(verbose==T)  print(results_list)
+      if(verbose==T)  cat("\n")
+      return(results_list)
+    }
+    
+    considered_row <- df[1,]
+    if(verbose==T)  assign("last_considered_row",considered_row,envir = .GlobalEnv)
+    if(verbose==T)  cat("considered rows\n")
+    if(verbose==T)  print(considered_row)
+    if(verbose==T)  cat("\n")
+    
+    df <- df[2:nrow(df),]
+    if(verbose==T)  assign("last_df",df,envir = .GlobalEnv)
+    if(verbose==T)  cat("df without considered rows\n")
+    if(verbose==T)  print(df)
+    if(verbose==T)  cat("\n")
+    
+    prev_df0 <- rbind(prev_df,considered_row)
+    rownames(prev_df0) <- NULL
+    if(verbose==T)  assign("last_prev0",prev_df0,envir = .GlobalEnv)
+    if(verbose==T)  cat("collected considered rows\n")
+    if(verbose==T)  print(prev_df0)
+    if(verbose==T)  cat("\n")
+    
+    comp_df <- compatible_rows(df,considered_row)
+    if(verbose==T)  assign("last_comp_df",comp_df,envir = .GlobalEnv)
+    if(verbose==T)  cat("compatible rows in df\n")
+    if(verbose==T)  print(comp_df)
+    if(verbose==T)  cat("\n")
+
+    if(verbose==T)  cat(paste(">>> GOING TO LVL",lvl+1,"\n\n"))
+    new_rows <- new_groups_list(
+      comp_df,
+      prev_df=prev_df0,
+      lvl=lvl,
+      verbose=verbose
+    )
+    if(verbose==T)  cat(paste0("--ROOT (lvl ",lvl,")--\n"))
+    if(verbose==T)  cat("result received from branch\n")
+    if(verbose==T)  print(new_rows)
+    if(verbose==T)  cat("\n")
+    
+    results_list <- append(results_list,list(new_rows))
+    if(verbose==T)  cat("results list\n")
+    if(verbose==T)  print(results_list)
+    if(verbose==T)  cat("\n")
+        
+  }
+  
+  return(results_list)
+}
+
 ```
 
 
@@ -109,178 +238,83 @@ create_new_groups <- function(original_groups, max_output = NULL){
     NewGroups_subLen_len_num[[len_subgroup]] <- new_group_params
   }
   
-  # print(NewGroups_subLen_len_num)
-  
   out_list <- list()
   ind <- 1
   for (e in 1:length(NewGroups_subLen_len_num)){
     NewGroup_subLen_len_num <- NewGroups_subLen_len_num[[e]]
-    # print(NewGroup_subLen_len_num)
+    
     elem_list <- list()
     ind <- 1
     # print(ind)
     for (o in 1:length(original_groups)){
       original_group <- original_groups[[o]]
-      # print(original_group)
-      # elem_list[[paste("group",ind)]] <- 1
+
       elem_list[[paste("group",ind)]] <- permutations(original_group,NewGroup_subLen_len_num[1])
       ind <- ind+1
     }
-    # print(elem_list)
+    
     out_list[[paste(c("subLen","len","numGroups"), NewGroup_subLen_len_num, collapse = " ")]] <- elem_list
   }
   
+  results_list <- list()
   
+  config_test <<- NewGroups_subLen_len_num
   
-  
-  
-  
-  for (config in 1:length(NewGroups_subLen_len_num)){
-    comb_grid <- expand.grid(out_list[[config]])
-    colnames(comb_grid) <- NULL
+  for (config_id in 1:length(NewGroups_subLen_len_num)){
+    config <- NewGroups_subLen_len_num[[config_id]]
     
-    for(comb_row in 1:min(nrow(comb_grid),max_output)){
-      for(num_new_groups in NewGroups_subLen_len_num[[config]][[3]]){
-        
-      }
+    perm_grid <- expand.grid(out_list[[config_id]])
+    
+    perm_grid <- split(perm_grid,1:nrow(perm_grid)) %>% 
+      lapply(unlist) %>% 
+      lapply(as.character)
+    
+    perm_grid <- do.call(rbind, perm_grid)
+  
+    new_groups <- new_groups_list(perm_grid,verbose = F) %>% find_matrix()
+    
+    # config_test <<- config
+    new_groups <- new_groups[which(sapply(new_groups, nrow) >= config[3])]
+    
+    # out_test <<- new_groups
+    results_list[[config_id]] <- new_groups
+    
+  }
+  
+  
+  return(results_list)
+  
+}
+
+test <- create_new_groups(original_groups)
+```
+
+
+
+
+```{r}
+check_for_duplicates <- function(l){
+  
+  out <- lapply(
+    l,
+    function(l_in){
+      return(
+        any(
+          sapply(
+            l_in,
+            function(matr) anyDuplicated(matr, MARGIN = c(1,2))
+          )
+        )
+      )
     }
-  }
-  
-  
-  
-  return(out_list)
-  
-}
+  )
+  return(out)
 
-test <- create_new_groups(original_groups,2)
-```
-
-
-
-```{r}
-
-a <- expand.grid(test[[1]])
-
-```
-
-
-
-```{r}
-
-compatible_groups <- function(df,single_list,num){
-  
-  colnames(df) <- NULL
-  
-  if(ncol(df)!=length(a)){
-    stop("number of columns and vector length not matching")
-  }
-  
-  f <- NULL
-  for (column in 1:ncol(df)){
-    f <- cbind(
-      f,
-      apply(
-        df[column],
-        MARGIN = 1,
-        function(x) identical(x[[1]],single_list[[column]][[1]])
-      )
-    ) 
-    
-  }
-  
-  f <- !(apply(f, MARGIN = 1, any))
-  
-  df <- df[which(f),]
-  
-  return(df)
 }
 
 
-l <- compatible_groups(a,a[1,])
-
-l1 <- compatible_groups(l,l[1,])
-
-l2 <- compatible_groups(l1,l1[1,])
-
-l3 <- compatible_groups(l2,l2[1,])
-
-
-
-
+check_for_duplicates(test)
 ```
-
-
-
-```{r}
-
-unlist(a[1,])
-unlist(l[1,])
-unlist(l1[1,])
-unlist(l2[1,])
-
-
-```
-
-
-
-```{r}
-
-compatible_groups <- function(df,single_list){
-  
-  colnames(df) <- 1:ncol(df)
-  
-  if(ncol(df)!=length(a)){
-    stop("number of columns and vector length not matching")
-  }
-  
-  f <- NULL
-  for (column in 1:ncol(df)){
-    f <- cbind(
-      f,
-      apply(
-        df[column],
-        MARGIN = 1,
-        function(x) identical(x[[1]],single_list[[column]][[1]])
-      )
-    ) 
-    
-  }
-  
-  f <- !(apply(f, MARGIN = 1, any))
-  
-  df <- df[which(f),]
-  
-  return(df)
-}
-
-
-l <- compatible_groups(a,a[1,])
-
-l1 <- compatible_groups(l,l[1,])
-
-l2 <- compatible_groups(l1,l1[1,])
-
-l3 <- compatible_groups(l2,l2[1,])
-
-
-
-
-```
-
-
-
-```{r}
-
-unlist(a[1,])
-unlist(l[1,])
-unlist(l1[1,])
-unlist(l2[1,])
-
-
-```
-
-
-
 
 
 
@@ -296,40 +330,11 @@ d <- lapply(d, as.character)
 
 e <- do.call(rbind, d)
 
-
-
 ```
 
 
 
 ```{r}
-f <- c()
-for (row_id in 1:nrow(e)){
-  f <- c(f,!any(e[1,] %in% e[row_id,]))
-}
-
-
-e1 <- e[which(f),]
-
-for (row_id in 1:nrow(e1)){
-  f <- c(!any(e1[1,] %in% e1[row_id,]))
-}
-
-e2 <- e1[which(f),]
-
-
-compatible_rows <- function(df,row_value){
-  row_ids <- c()
-  for (row_id in 1:nrow(df)){
-    row_ids <- c(row_ids,!any(row_value %in% df[row_id,]))
-  }
-  return(df[which(row_ids),])
-}
-
-
-
-
-
 
 compatible_rows <- function(df,row_value){
   row_ids <- c()
@@ -371,124 +376,87 @@ d <- do.call(rbind, d)
 
 new_groups_list <- function(df, prev_df=NULL, lvl=-1, verbose=F){
   
-  
   lvl <- lvl+1
-  # cat(paste0("##########--- LVL ",lvl," ---##########\n"))
-  # cat(paste("lvl",lvl),"\n\n")
+
   results_list <- list()
   
   if(is.null(nrow(df))){
-    cat(paste0("--BRANCH END (BEGIN lvl ",lvl,")--\n"))
+    if(verbose==T) cat(paste0("--BRANCH END (BEGIN lvl ",lvl,")--\n"))
     prev_df0 <- rbind(prev_df,df)
     rownames(prev_df0) <- NULL
-    cat("returned\n")
-    print(prev_df0)
-    cat("\n")
+    if(verbose==T)  cat("returned\n")
+    if(verbose==T)  print(prev_df0)
+    if(verbose==T)  cat("\n")
     return(prev_df0)
   }
   
-  
-  
   for(row_id in 1:nrow(df)){
     
-    cat(paste("-- lvl",lvl,"cycle",row_id,"--\n"))
+    if(verbose==T)  cat(paste("-- lvl",lvl,"cycle",row_id,"--\n"))
     
-    cat("initial results list\n")
+    if(verbose==T)  cat("initial results list\n")
     
-    print(results_list)
-    cat("\n")
+    if(verbose==T)  print(results_list)
+    if(verbose==T)  cat("\n")
     
-    cat("df in\n")
-    assign("last_df",df,envir = .GlobalEnv)
-    print(df)
-    cat("\n")
+    if(verbose==T)  cat("df in\n")
+    if(verbose==T)  assign("last_df",df,envir = .GlobalEnv)
+    if(verbose==T)  print(df)
+    if(verbose==T)  cat("\n")
     
     if(is.null(nrow(df))){
       prev_df0 <- rbind(prev_df,df)
       rownames(prev_df0) <- NULL
-      cat(paste0("--BRANCH END (MID lvl ",lvl,")--\n"))
-      cat("returned\n")
+      if(verbose==T)  cat(paste0("--BRANCH END (MID lvl ",lvl,")--\n"))
+      if(verbose==T)  cat("returned\n")
       results_list <- append(results_list,list(prev_df0))
-      print(results_list)
-      cat("\n")
+      if(verbose==T)  print(results_list)
+      if(verbose==T)  cat("\n")
       return(results_list)
     }
     
     considered_row <- df[1,]
-    assign("last_considered_row",considered_row,envir = .GlobalEnv)
-    cat("considered rows\n")
-    print(considered_row)
-    cat("\n")
+    if(verbose==T)  assign("last_considered_row",considered_row,envir = .GlobalEnv)
+    if(verbose==T)  cat("considered rows\n")
+    if(verbose==T)  print(considered_row)
+    if(verbose==T)  cat("\n")
     
     df <- df[2:nrow(df),]
-    assign("last_df",df,envir = .GlobalEnv)
-    cat("df without considered rows\n")
-    print(df)
-    cat("\n")
+    if(verbose==T)  assign("last_df",df,envir = .GlobalEnv)
+    if(verbose==T)  cat("df without considered rows\n")
+    if(verbose==T)  print(df)
+    if(verbose==T)  cat("\n")
     
     prev_df0 <- rbind(prev_df,considered_row)
-    assign("last_prev0",prev_df0,envir = .GlobalEnv)
-    cat("collected considered rows\n")
     rownames(prev_df0) <- NULL
-    print(prev_df0)
-    cat("\n")
+    if(verbose==T)  assign("last_prev0",prev_df0,envir = .GlobalEnv)
+    if(verbose==T)  cat("collected considered rows\n")
+    if(verbose==T)  print(prev_df0)
+    if(verbose==T)  cat("\n")
     
     comp_df <- compatible_rows(df,considered_row)
-    assign("last_comp_df",comp_df,envir = .GlobalEnv)
-    cat("compatible rows in df\n")
-    print(comp_df)
-    cat("\n")
-    # 
-    # if(!is.null(nrow(comp_df))){
-    #   if(!nrow(comp_df)==0){
-    #     comp_df_test <- TRUE
-    #   } else {
-    #     comp_df_test <- FALSE
-    #   }
-    # } else {
-    #   comp_df_test <- FALSE
-    # }
-    # assign("last_comp_df_test",comp_df_test,envir = .GlobalEnv)
-    # cat("can go lower level\n")
-    # print(comp_df_test)
-    # cat("\n")
+    if(verbose==T)  assign("last_comp_df",comp_df,envir = .GlobalEnv)
+    if(verbose==T)  cat("compatible rows in df\n")
+    if(verbose==T)  print(comp_df)
+    if(verbose==T)  cat("\n")
 
-    # if(!is.null(comp_df)||!nrow(comp_df)==0){
-    # if(comp_df_test){
-      cat(paste(">>> GOING TO LVL",lvl+1,"\n\n"))
-      new_rows <- new_groups_list(
-        comp_df,
-        prev_df=prev_df0,
-        lvl=lvl,
-        verbose=verbose
-      )
-      cat(paste0("--ROOT (lvl ",lvl,")--\n"))
-      cat("result received from branch\n")
-      print(new_rows)
-      cat("\n")
-      
-      # if(lvl==0){
-      #   results_list <- append(results_list,list(new_rows))
-      # } else {
-      #   return(new_rows)
-      # }
-      
-      results_list <- append(results_list,list(new_rows))
-      cat("results list\n")
-      print(results_list)
-      cat("\n")
-        
-    # } 
-    # else {
-    #   cat("--BRANCH END--\n")
-    #   cat("returned\n")
-    #   print(prev_df0)
-    #   cat("\n")
-    #   cat(paste("<<< BACK TO LVL",lvl-1,"\n\n"))
-    #   return(prev_df0)
-    # }
+    if(verbose==T)  cat(paste(">>> GOING TO LVL",lvl+1,"\n\n"))
+    new_rows <- new_groups_list(
+      comp_df,
+      prev_df=prev_df0,
+      lvl=lvl,
+      verbose=verbose
+    )
+    if(verbose==T)  cat(paste0("--ROOT (lvl ",lvl,")--\n"))
+    if(verbose==T)  cat("result received from branch\n")
+    if(verbose==T)  print(new_rows)
+    if(verbose==T)  cat("\n")
     
-
+    results_list <- append(results_list,list(new_rows))
+    if(verbose==T)  cat("results list\n")
+    if(verbose==T)  print(results_list)
+    if(verbose==T)  cat("\n")
+        
   }
   
   return(results_list)
@@ -499,12 +467,17 @@ new_groups_list <- function(df, prev_df=NULL, lvl=-1, verbose=F){
 ```
 
 
+
+
+
+
+
 ```{r}
-res <- new_groups_list(d)
+res <- new_groups_list(d,verbose = F)
 
 
 
-res3 <- rrapply::rrapply(res, classes = "data.frame", how = "flatten")
+# res3 <- rrapply::rrapply(res, classes = "data.frame", how = "flatten")
 
 
 
