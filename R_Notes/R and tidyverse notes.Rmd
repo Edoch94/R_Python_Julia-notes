@@ -85,7 +85,7 @@ library(data.table)
 data(mtcars)
 
 # Carico la tabella su una lazy dt
-dt_mtcars <- lazy_dt(mtcars, immutable = F) # il parametro immutable obbliga dtplyr a non creare copie della dt, cosa che succede se il codice dplyr contiene dei mutate che vanno a modificare campi esistenti 
+dt_mtcars <- lazy_dt(mtcars, immutable = T) # il parametro immutable = T obbliga dtplyr a non creare copie della dt, cosa che succede se il codice dplyr contiene dei mutate che vanno a modificare campi esistenti 
 
 # Definisco, senza lanciare, una trasformazione della tabella 
 dt_mtcars_queried <- dt_mtcars %>% 
@@ -135,4 +135,20 @@ testo_immagine_info
 
 ```
 
+### Uso di DataExplorer
+Il pacchetto DataExplorer permette di creare un report di esplorazione di una tabella che si vuole analizzare, rispondendo a tutte le domande più comuni che si possono avere sui campi
+```{r}
+library(tidyverse)
+library(magrittr)
+library(DataExplorer)
+data(mtcars)
+
+introduce(mtcars)
+
+# Stampa di un report completo su una tabella
+# mtcars %>% 
+#   create_report(output_file = "report1")
+
+
+```
 
