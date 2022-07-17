@@ -9,21 +9,25 @@ Answer for <https://stackoverflow.com/questions/72912733/determining-all-possibl
 
 rm(list = ls())
 
-library(magrittr)
-
 ```
 
 ```{r}
 
 original_groups <- list(
-  group_1 = as.character(1:5), 
-  group_2 = as.character(6:10), 
-  group_3 = as.character(11:16)
-  # group_4 = as.character(13:16)
+  group_1 = as.character(1:4), 
+  group_2 = as.character(5:8), 
+  group_3 = as.character(9:13)
 )
 # original_groups <- list(
 #   group_1 = as.character(1:2), 
 #   group_2 = as.character(3:5)
+# )
+
+
+# original_groups <- list(
+#   group_1 = as.character(1:2), 
+#   group_2 = as.character(3:4), 
+#   group_3 = as.character(5:7)
 # )
 
 print(original_groups)
@@ -32,44 +36,28 @@ print(original_groups)
 
 
 ```{r}
-permutations <- function(vec, sublen, prev_vec=NULL){
-  
-  out_list <- list()
 
+permutations <- function(vec, sublen, prev_vec=NULL){
+  out_list <- list()
   if(sublen==1){
-    
     for(v in vec){
-      
       out_list <- append(out_list,list(append(prev_vec,list(v))))
-      
     }
-    
   } else {
-    
     for (i in 1:(length(vec)-sublen+1)){
-      
       v <- vec[1]
       prev_vec0 <- c(prev_vec,vec[1])
       vec <- vec[2:length(vec)]
-      # sublen0 <- sublen-1
-      # perm_list <- permutations(vec,sublen0,prev_vec0)
       perm_list <- permutations(
         vec=vec,
         sublen=sublen-1,
         prev_vec=prev_vec0
       )
       out_list <- append(out_list,perm_list)
-      
     }
-    
   }
-  
   return(out_list)
-  
 }
-
-# out <- permutations(list(1,2,3),2)
-# out
 
 ```
 
@@ -265,13 +253,17 @@ create_new_groups <- function(original_groups, max_output = NULL){
     
     perm_grid <- expand.grid(out_list[[config_id]])
     
-    perm_grid <- split(perm_grid,1:nrow(perm_grid)) %>% 
-      lapply(unlist) %>% 
-      lapply(as.character)
+    perm_grid <- split(perm_grid,1:nrow(perm_grid)) 
+    
+    perm_grid <- lapply(perm_grid,unlist)
+    
+    perm_grid <- lapply(perm_grid,as.character)
     
     perm_grid <- do.call(rbind, perm_grid)
   
-    new_groups <- new_groups_list(perm_grid,verbose = F) %>% find_matrix()
+    new_groups <- new_groups_list(perm_grid,verbose = F) 
+    
+    new_groups <- find_matrix(new_groups)
     
     # config_test <<- config
     new_groups <- new_groups[which(sapply(new_groups, nrow) >= config[3])]
@@ -288,6 +280,136 @@ create_new_groups <- function(original_groups, max_output = NULL){
 
 test <- create_new_groups(original_groups)
 ```
+
+
+
+
+
+
+```{r}
+create_new_groups_modified <- function(original_groups, max_output = NULL, elements_from_original = NULL){
+
+  min_len_original_groups = min(lengths(original_groups))
+
+  num_original_groups = length(original_groups)
+  
+  max_len_subgroup <- floor(min_len_original_groups/2)
+  
+  
+  if(min_len_original_groups<2){
+    stop("Not possible to populate new groups: at least one original group has less than 2 elements")
+  }
+  
+  
+  NewGroups_subLen_len_num <- list()
+  
+  for (len_subgroup in 1:max_len_subgroup){
+    
+    new_group_params <- c(
+      len_subgroup,
+      len_subgroup*num_original_groups,
+      floor(min_len_original_groups/len_subgroup)
+    )
+    
+    NewGroups_subLen_len_num[[len_subgroup]] <- new_group_params
+  }
+  
+  out_list <- list()
+  ind <- 1
+  for (e in 1:length(NewGroups_subLen_len_num)){
+    NewGroup_subLen_len_num <- NewGroups_subLen_len_num[[e]]
+    
+    elem_list <- list()
+    ind <- 1
+    # print(ind)
+    for (o in 1:length(original_groups)){
+      original_group <- original_groups[[o]]
+
+      elem_list[[paste("group",ind)]] <- permutations(original_group,NewGroup_subLen_len_num[1])
+      ind <- ind+1
+    }
+    
+    out_list[[paste(c("subLen","len","numGroups"), NewGroup_subLen_len_num, collapse = " ")]] <- elem_list
+  }
+  
+  results_list <- list()
+  
+  config_test <<- NewGroups_subLen_len_num
+  
+  # if `elements_from_original` is not set, output all possible combinations
+  
+  if(is.null(elements_from_original)){
+    for (config_id in 1:length(NewGroups_subLen_len_num)){
+      config <- NewGroups_subLen_len_num[[config_id]]
+      
+      perm_grid <- expand.grid(out_list[[config_id]])
+      
+      perm_grid <- split(perm_grid,1:nrow(perm_grid)) 
+      
+      perm_grid <- lapply(perm_grid,unlist)
+      
+      perm_grid <- lapply(perm_grid,as.character)
+      
+      perm_grid <- do.call(rbind, perm_grid)
+    
+      new_groups <- new_groups_list(perm_grid,verbose = F) 
+      
+      new_groups <- find_matrix(new_groups)
+      
+      # config_test <<- config
+      new_groups <- new_groups[which(sapply(new_groups, nrow) >= config[3])]
+      
+      # out_test <<- new_groups
+      results_list[[config_id]] <- new_groups
+    }
+    
+  } else {
+    
+    # if `elements_from_original` is set, check if this is a valid configuration, then output only the matrix having this configuration
+    
+    config_id <- which(sapply(NewGroups_subLen_len_num,function(x) x[1]==elements_from_original))
+    
+    if (length(config_id)!=0){
+
+      config <- NewGroups_subLen_len_num[[config_id]]
+      
+      perm_grid <- expand.grid(out_list[[config_id]])
+      
+      perm_grid <- split(perm_grid,1:nrow(perm_grid)) 
+      
+      perm_grid <- lapply(perm_grid,unlist)
+      
+      perm_grid <- lapply(perm_grid,as.character)
+      
+      perm_grid <- do.call(rbind, perm_grid)
+    
+      new_groups <- new_groups_list(perm_grid,verbose = F) 
+      
+      new_groups <- find_matrix(new_groups)
+      
+      new_groups <- new_groups[which(sapply(new_groups, nrow) >= config[3])]
+      
+      results_list[[1]] <- new_groups
+
+    } else {
+      stop("value of elements_from_original not available: check config_test to see available configurations")
+    }
+    
+  }
+  
+  return(results_list)
+  
+}
+
+test <- create_new_groups_modified(original_groups,elements_from_original = 1)
+```
+
+
+
+```{r}
+which(sapply(config_test,function(x) x[1]==2))
+```
+
 
 
 
@@ -314,185 +436,5 @@ check_for_duplicates <- function(l){
 
 
 check_for_duplicates(test)
-```
-
-
-
-
-
-```{r}
-
-b <- split(a, 1:nrow(a))
-
-d <- lapply(b, unlist)
-
-d <- lapply(d, as.character)
-
-e <- do.call(rbind, d)
-
-```
-
-
-
-```{r}
-
-compatible_rows <- function(df,row_value){
-  row_ids <- c()
-  if(is.null(nrow(df))){
-    return(NULL)
-  } else {
-    for (row_id in 1:nrow(df)){
-      row_ids <- c(row_ids,!any(row_value %in% df[row_id,]))
-    }
-    return(df[which(row_ids),])
-  }
-}
-
-h <- compatible_rows(e,e[1,])
-h1 <- compatible_rows(h,h[1,])
-# h2 <- compatible_rows(h1,h1[1,])
-# h3 <- compatible_rows(h2,h2[1,])
-# h4 <- compatible_rows(h3,h3[1,])
-
-
-
-```
-
-
-
-
-
-
-
-```{r}
-
-
-d <- split(a,1:nrow(a)) %>% 
-  lapply(unlist) %>% 
-  lapply(as.character)
-
-d <- do.call(rbind, d)
-
-
-new_groups_list <- function(df, prev_df=NULL, lvl=-1, verbose=F){
-  
-  lvl <- lvl+1
-
-  results_list <- list()
-  
-  if(is.null(nrow(df))){
-    if(verbose==T) cat(paste0("--BRANCH END (BEGIN lvl ",lvl,")--\n"))
-    prev_df0 <- rbind(prev_df,df)
-    rownames(prev_df0) <- NULL
-    if(verbose==T)  cat("returned\n")
-    if(verbose==T)  print(prev_df0)
-    if(verbose==T)  cat("\n")
-    return(prev_df0)
-  }
-  
-  for(row_id in 1:nrow(df)){
-    
-    if(verbose==T)  cat(paste("-- lvl",lvl,"cycle",row_id,"--\n"))
-    
-    if(verbose==T)  cat("initial results list\n")
-    
-    if(verbose==T)  print(results_list)
-    if(verbose==T)  cat("\n")
-    
-    if(verbose==T)  cat("df in\n")
-    if(verbose==T)  assign("last_df",df,envir = .GlobalEnv)
-    if(verbose==T)  print(df)
-    if(verbose==T)  cat("\n")
-    
-    if(is.null(nrow(df))){
-      prev_df0 <- rbind(prev_df,df)
-      rownames(prev_df0) <- NULL
-      if(verbose==T)  cat(paste0("--BRANCH END (MID lvl ",lvl,")--\n"))
-      if(verbose==T)  cat("returned\n")
-      results_list <- append(results_list,list(prev_df0))
-      if(verbose==T)  print(results_list)
-      if(verbose==T)  cat("\n")
-      return(results_list)
-    }
-    
-    considered_row <- df[1,]
-    if(verbose==T)  assign("last_considered_row",considered_row,envir = .GlobalEnv)
-    if(verbose==T)  cat("considered rows\n")
-    if(verbose==T)  print(considered_row)
-    if(verbose==T)  cat("\n")
-    
-    df <- df[2:nrow(df),]
-    if(verbose==T)  assign("last_df",df,envir = .GlobalEnv)
-    if(verbose==T)  cat("df without considered rows\n")
-    if(verbose==T)  print(df)
-    if(verbose==T)  cat("\n")
-    
-    prev_df0 <- rbind(prev_df,considered_row)
-    rownames(prev_df0) <- NULL
-    if(verbose==T)  assign("last_prev0",prev_df0,envir = .GlobalEnv)
-    if(verbose==T)  cat("collected considered rows\n")
-    if(verbose==T)  print(prev_df0)
-    if(verbose==T)  cat("\n")
-    
-    comp_df <- compatible_rows(df,considered_row)
-    if(verbose==T)  assign("last_comp_df",comp_df,envir = .GlobalEnv)
-    if(verbose==T)  cat("compatible rows in df\n")
-    if(verbose==T)  print(comp_df)
-    if(verbose==T)  cat("\n")
-
-    if(verbose==T)  cat(paste(">>> GOING TO LVL",lvl+1,"\n\n"))
-    new_rows <- new_groups_list(
-      comp_df,
-      prev_df=prev_df0,
-      lvl=lvl,
-      verbose=verbose
-    )
-    if(verbose==T)  cat(paste0("--ROOT (lvl ",lvl,")--\n"))
-    if(verbose==T)  cat("result received from branch\n")
-    if(verbose==T)  print(new_rows)
-    if(verbose==T)  cat("\n")
-    
-    results_list <- append(results_list,list(new_rows))
-    if(verbose==T)  cat("results list\n")
-    if(verbose==T)  print(results_list)
-    if(verbose==T)  cat("\n")
-        
-  }
-  
-  return(results_list)
-}
-
-
-
-```
-
-
-
-
-
-
-
-```{r}
-res <- new_groups_list(d,verbose = F)
-
-
-
-# res3 <- rrapply::rrapply(res, classes = "data.frame", how = "flatten")
-
-
-
-find_matrix <- function(x) {
-  if (is.matrix(x))
-    return(list(x))
-  if (!is.list(x))
-    return(NULL)
-  unlist(lapply(x, find_matrix), FALSE)
-}
-
-res4 <- find_matrix(res)
-
-
-res5 <- res4[which(sapply(res4, nrow) >= 2)]
-
 ```
 
