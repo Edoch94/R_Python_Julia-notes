@@ -1,0 +1,505 @@
+---
+title: Gradient Descent and Linear Regression with PyTorch
+author: Edoch
+date: 04/08/2022
+format:
+  html:
+    self-contained: true
+jupyter: python3
+---
+
+# Gradient Descent and Linear Regression with PyTorch
+Source: [jovian.ai/aakashns/02-linear-regression](https://jovian.ai/aakashns/02-linear-regression)
+
+In this first section a linear regression model is implemented using PyTorch
+
+```{python}
+import numpy as np
+import torch
+```
+
+In the example the objective is to predict the yields for oranges and apples given the values of temperature, rainfall and humidity. Therefore the (linear) models are going to be
+$$yield_{apple}  = w_{11} * \text{temp} + w_{12} * \text{rainfall} + w_{13} * \text{humidity} + b_{1}$$
+$$yield_{apple}  = w_{21} * \text{temp} + w_{22} * \text{rainfall} + w_{23} * \text{humidity} + b_{2}$$
+
+## Input data
+The input data are the following
+
+```{python}
+# Input (temp, rainfall, humidity)
+inputs = np.array(
+    [[73, 67, 43],
+    [91, 88, 64],
+    [87, 134, 58],
+    [102, 43, 37],
+    [69, 96, 70]], 
+    dtype='float32'
+)
+
+inputs
+```
+
+The targets (labels) are the following
+
+```{python}
+# Targets (apples, oranges)
+targets = np.array(
+    [[56, 70],
+    [81, 101],
+    [119, 133],
+    [22, 37],
+    [103, 119]], 
+    dtype='float32'
+)
+
+targets
+```
+
+Transform the input and targets in tensors
+
+```{python}
+inputs = torch.from_numpy(inputs)
+inputs
+```
+
+```{python}
+targets = torch.from_numpy(targets)
+targets
+```
+
+## Weights and biases initialization
+Weights and biases are initialized with random values following a normal distribution with mean 0 and standard deviation 1. 
+- Weights are collected in a tensor having the where the first dimension (rows) corresponds to the number of models (2, i.e., the number of outputs) and the second dimension (columns) corresponds to the number of features (3, i.e., the number of inputs)
+- Biases are collected in a tensor having the first dimension equal to the number of models (2)
+
+```{python}
+w = torch.randn((2,3), requires_grad=True)
+w
+```
+
+```{python}
+b = torch.randn((2), requires_grad=True)
+b
+```
+
+## The model
+
+The model is 
+$$X \cdot W^{T} + B$$
+This model can be written in python as a function of <code>x</code>
+
+```{python}
+def regression_model(x):
+    return x @ w.T + b
+```
+
+where 
+- `@` is the matrix multiplication operator
+- `.T` (or `.t()`) outputs the transpose tensor
+
+Moreover, notice that <code>b</code> is a vector, while the result of <code>x @ w.T</code> is a matrix: the summation is computed only after <code>b</code> is broadcasted on the rows to match the matrix shape
+
+## The predictions
+The predictions of the model are computed calling the function
+
+```{python}
+preds = regression_model(inputs)
+preds
+```
+
+If the predictions are compared with the targets it can be seen that they are quite different. That's because the model has not been trained yet, and weights and biases still have random values
+
+## Definition of a Loss function
+
+Improving the model, it must be evaluated how well the model is performing. The model predictions are compared with the actual targets using the following method:
+
+- Calculate the difference between the two matrices (`preds` and `targets`).
+- Square all elements of the difference matrix to remove negative values.
+- Calculate the average of the elements in the resulting matrix.
+
+The result is a single number, known as the **mean squared error** (MSE).
+$$\frac{\sum{(\text{pred}-\text{target})^{2}}}{N}$$
+
+```{python}
+def mse(t1, t2):
+    diff = t1 - t2
+    quad_diff = diff * diff
+    mean_quad_diff = torch.sum(quad_diff) / diff.numel()
+    return mean_quad_diff
+```
+
+So the loss, in this case, is
+
+```{python}
+mse_loss = mse(preds, targets)
+```
+
+## Gradient computation
+
+Since <code>w</code> and <code>b</code> have been defined with <code>requires_grad</code> equal to True, the gradient of the loss function is going to be computed w.r.t <code>w</code> and <code>b</code>
+
+```{python}
+mse_loss.backward()
+```
+
+The gradients are stored in the <code>.grad</code> attribute of <code>w</code> and <code>b</code>
+
+```{python}
+w.grad, b.grad
+```
+
+### Adjust weights and biases to reduce the loss
+
+The loss is a [quadratic function](https://en.wikipedia.org/wiki/Quadratic_function) of weights and biases, and the objective is to find the set of weights where the loss is the lowest. If we plot a graph of the loss w.r.t any individual weight or bias element, it will look like the figure shown below. An important insight from calculus is that the gradient indicates the rate of change of the loss, i.e., the loss function's [slope](https://en.wikipedia.org/wiki/Slope) w.r.t. the weights and biases.
+
+If a gradient element is **positive**:
+
+- **increasing** the element weight value slightly will **increase** the loss
+- **decreasing** the element weight value slightly will **decrease** the loss
+
+![postive-gradient](https://i.imgur.com/WLzJ4xP.png)
+
+If a gradient element is **negative**:
+
+- **increasing** the element weight value slightly will **decrease** the loss
+- **decreasing** the element weight value slightly will **increase** the loss
+
+![negative=gradient](https://i.imgur.com/dvG2fxU.png)
+
+The increase or decrease in the loss by changing a weight element is proportional to the gradient of the loss w.r.t. that element. This observation forms the basis of _the gradient descent_ optimization algorithm that we'll use to improve our model (by _descending_ along the _gradient_).
+
+We can subtract from each weight element a small quantity proportional to the derivative of the loss w.r.t. that element to reduce the loss slightly.
+
+Since PyTorch accumulates gradients, to procede the gradients of <code>w</code> and <code>b</code> have to be reset to 0
+
+```{python}
+w.grad.zero_()
+b.grad.zero_()
+print(w.grad)
+print(b.grad)
+```
+
+Then, we register the current loss to compare it later
+
+```{python}
+old_mse_loss = mse(preds, targets)
+```
+
+## Step-by-step: train the model using gradient descent
+Follow these steps to train the model
+1. Generate predictions
+2. Calculate the loss
+3. Compute gradients w.r.t the weights and biases
+4. Adjust the weights by subtracting a small quantity proportional to the gradient
+5. Reset the gradients to zero
+
+### 1. Generate predictions
+
+```{python}
+# Generate predictions
+preds = regression_model(inputs)
+preds
+```
+
+### 2. Calculate the loss (and record the loss for comparison)
+
+```{python}
+# Calculate the loss
+mse_loss = mse(preds, targets)
+print(mse_loss)
+old_mse_loss = mse_loss
+```
+
+### 3. Compute gradients w.r.t the weights and biases
+
+```{python}
+# Compute gradients
+mse_loss.backward()
+print(w.grad)
+print(b.grad)
+```
+
+### 4 and 5. Adjust the weights by subtracting a small quantity proportional to the gradient and reset the gradients to zero
+
+```{python}
+# Adjust weights & reset gradients
+with torch.no_grad():
+    w -= w.grad * 1e-5
+    b -= b.grad * 1e-5
+    w.grad.zero_()
+    b.grad.zero_()
+```
+
+So the weights and biases are updated subtracting from them a value equal to the product between each own gradient and a very small number (`10^-5` in this case), to ensure that they don't get modified by a very large amount. In this way, a small step is taken in the downhill direction of the gradient, not a giant leap. This number is called the **learning rate** of the algorithm. 
+
+`torch.no_grad` is a context manager used to indicate to PyTorch that it shouldn't track, calculate, or modify gradients while updating the weights and biases. In this mode, the result of every computation will have `requires_grad=False`, even when the inputs have `requires_grad=True`.
+
+See https://pytorch.org/docs/stable/generated/torch.no_grad.html
+
+### Compare the loss between the predictions taken before and after the weights and biases update
+
+```{python}
+new_preds = regression_model(inputs)
+new_mse_loss = mse(new_preds, targets)
+print(f'old loss: {old_mse_loss}')
+print(f'new loss: {new_mse_loss}')
+```
+
+The loss reduced by a lot
+
+## Train for multiple epochs
+
+To reduce the loss further, repeat the process of adjusting the weights and biases using the gradients multiple times. Each iteration is called an **epoch**. 
+
+Train the model for 1000 epochs.
+
+```{python}
+# reset w and b
+from tqdm.notebook import tqdm
+
+
+w = torch.randn((2,3), requires_grad=True)
+b = torch.randn((2), requires_grad=True)
+
+def regression_model(inputs,w,b):
+    return inputs@w.T+b
+
+def mse(t1,t2):
+    diff = t1-t2
+    return torch.sum(diff*diff)/diff.numel()
+
+loss_history = []
+
+for i in tqdm(range(1000)):
+
+    # generate predictions
+    preds = regression_model(inputs,w,b)
+    
+    # calculate the loss
+    mse_loss = mse(preds,targets)
+    loss_history.append(mse_loss)
+
+    # compute the gradients
+    mse_loss.backward()
+
+    # update w and b
+    with torch.no_grad():
+        w -= w.grad*1e-5
+        b -= b.grad*1e-5
+        w.grad.zero_()
+        b.grad.zero_()
+
+print(f'starting loss\t{loss_history[0]}')
+print(f'ending loss\t{loss_history[-1]}')
+```
+
+# Linear regression using PyTorch built-ins
+
+PyTorch provides a built-in for linear regression models.
+
+Import the `torch.nn` package, which contains utility classes for building neural networks
+
+```{python}
+import torch.nn as nn
+```
+
+Import the inputs and targets
+
+```{python}
+# Input (temp, rainfall, humidity)
+inputs = np.array(
+    [[73, 67, 43],
+    [91, 88, 64],
+    [87, 134, 58],
+    [102, 43, 37],
+    [69, 96, 70],
+    [74, 66, 43],
+    [91, 87, 65],
+    [88, 134, 59],
+    [101, 44, 37],
+    [68, 96, 71],
+    [73, 66, 44],
+    [92, 87, 64],
+    [87, 135, 57],
+    [103, 43, 36],
+    [68, 97, 70]], 
+    dtype='float32'
+)
+
+# Targets (apples, oranges)
+targets = np.array(
+    [[56, 70],
+    [81, 101],
+    [119, 133],
+    [22, 37],
+    [103, 119],
+    [57, 69],
+    [80, 102],
+    [118, 132],
+    [21, 38],
+    [104, 118],
+    [57, 69],
+    [82, 100],
+    [118, 134],
+    [20, 38],
+    [102, 120]],
+    dtype='float32'
+)
+
+inputs = torch.from_numpy(inputs)
+targets = torch.from_numpy(targets)
+```
+
+## Dataset and DataLoader
+### `TensorDataset`
+`TensorDataset` allows access to rows from `inputs` and `targets` as tuples, and provides standard APIs for working with many different types of datasets in PyTorch.
+
+See https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader
+
+It allows to access a small section of the training data using the array indexing notation (`[0:3]` in the above code). It returns a tuple with two elements:
+- the first element contains the input variables for the selected rows
+- the second contains the targets
+
+```{python}
+from torch.utils.data import TensorDataset
+```
+
+```{python}
+# Define the TensorDataset
+train_ds = TensorDataset(inputs, targets)
+train_ds[0:3]
+```
+
+### `DataLoader`
+A `DataLoader` is a Python iterable over a dataset. It can split the data into batches of a predefined size while training. It also provides other utilities like shuffling and random sampling of the data.
+
+```{python}
+from torch.utils.data import DataLoader
+```
+
+```{python}
+# Define data loader
+train_dl = DataLoader(train_ds, batch_size = 5, shuffle=True)
+```
+
+The `batch_size` parameter divides the dataset into batches: during each epoch, weights and biases are updated computing the gradients over each batch, so speeding up the gradient descent since more than one update (in this case 3, since the samples are 15 divided into batches of 5 samples) occurs during each epoch. Iterating over the dataloader, it returns one batch of data with the given batch size. 
+
+The `shuffle` parameter set to `True` orders to the dataloader to shuffle the training data before creating batches. Shuffling helps randomize the input to the optimization algorithm, leading to a faster reduction in the loss.
+
+```{python}
+# Example: the first batch of the dataset
+list(train_dl)[0]
+```
+
+### `nn.Linear`
+The `nn.Linear` class creates a linear model ($X \cdot W^{T} + B$), and automatically initializes weights and biases
+
+```{python}
+# Define model
+linear_model = nn.Linear(3, 2)
+print(linear_model.weight)
+print(linear_model.bias)
+```
+
+To see the list of all the weights and bias matrices present in the model use the `.parameters` method
+
+```{python}
+# Parameters
+list(linear_model.parameters())
+```
+
+## Loss Function
+Also the mse loss function is already available in PyTorch as a built-in loss function, and it is called `mse_loss`
+
+Built-in loss functions and other utlities are collected in the `nn.functional` module
+
+```{python}
+# Import nn.functional
+from torch.nn.functional import mse_loss
+```
+
+```{python}
+loss = mse_loss(linear_model(inputs), targets)
+print(loss)
+```
+
+## Optimizer
+
+Instead of manually manipulating the model's weights & biases using gradients, the optimizer `optim.SGD` can be used. SGD is short for "stochastic gradient descent". The term *stochastic* indicates that samples are selected in random batches instead of as a single group.
+
+Optimizers are collected in the `optim` module
+
+```{python}
+# Define optimizer
+opt_SDG = torch.optim.SGD(linear_model.parameters(), lr=1e-5)
+```
+
+I'm passing as the first argument of the SGD class a list containing the model parameters
+
+## Model training 
+
+Steps to implement gradient descent:
+
+1. Generate predictions
+
+2. Calculate the loss
+
+3. Compute gradients w.r.t the weights and biases
+
+4. Adjust the weights by subtracting a small quantity proportional to the gradient
+
+5. Reset the gradients to zero
+
+The only change is that now the dataset is divided into batches, instead of processing the entire training data in every iteration. 
+
+It is useful to define a utility function `fit` that trains the model for a given number of epochs.
+
+```{python}
+# Utility function to train the model
+def fit(num_epochs, model, loss_fn, opt, train_dl):
+    
+    # Repeat for given number of epochs
+    for epoch in range(num_epochs):
+        
+        # Train with batches of data
+        for xb,yb in train_dl:
+            
+            # 1. Generate predictions
+            pred = model(xb)
+            
+            # 2. Calculate loss
+            loss = loss_fn(pred, yb)
+            
+            # 3. Compute gradients
+            loss.backward()
+            
+            # 4. Update parameters using gradients
+            opt.step()
+            
+            # 5. Reset the gradients to zero
+            opt.zero_grad()
+        
+        # Print the progress
+        if (epoch+1) % 10 == 0:
+            print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
+```
+
+Notice that:
+- dataloader is used to get batches of data for every iteration
+- parameters (weights and biases) are update not manually but automatically, using 
+    - `opt.step` to perform the update 
+    - `opt.zero_grad` to reset the gradients to zero.
+- a log statement that prints the loss from the last batch of data for every 10th epoch to track training progress has been added (the `loss.item()` method returns the actual value stored in the loss tensor)
+
+Train the model for 100 epochs
+
+```{python}
+fit(
+    num_epochs=100,
+    model=linear_model,
+    loss_fn=mse_loss,
+    opt=opt_SDG,
+    train_dl=train_dl
+)
+```
+

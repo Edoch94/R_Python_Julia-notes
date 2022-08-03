@@ -1,0 +1,1070 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[many]{tcolorbox}}
+\makeatother
+\makeatletter
+\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
+\makeatother
+\makeatletter
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Gradient Descent and Linear Regression with PyTorch},
+  pdfauthor={Edoch},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Gradient Descent and Linear Regression with PyTorch}
+\author{Edoch}
+\date{04/08/2022}
+
+\begin{document}
+\maketitle
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, borderline west={3pt}{0pt}{shadecolor}, interior hidden, enhanced, boxrule=0pt, sharp corners, breakable]}{\end{tcolorbox}}\fi
+
+\hypertarget{gradient-descent-and-linear-regression-with-pytorch}{%
+\section{Gradient Descent and Linear Regression with
+PyTorch}\label{gradient-descent-and-linear-regression-with-pytorch}}
+
+Source:
+\href{https://jovian.ai/aakashns/02-linear-regression}{jovian.ai/aakashns/02-linear-regression}
+
+In this first section a linear regression model is implemented using
+PyTorch
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ torch}
+\end{Highlighting}
+\end{Shaded}
+
+In the example the objective is to predict the yields for oranges and
+apples given the values of temperature, rainfall and humidity. Therefore
+the (linear) models are going to be
+
+\[yield_{apple}  = w_{11} * \text{temp} + w_{12} * \text{rainfall} + w_{13} * \text{humidity} + b_{1}\]
+
+\[yield_{apple}  = w_{21} * \text{temp} + w_{22} * \text{rainfall} + w_{23} * \text{humidity} + b_{2}\]
+
+\hypertarget{input-data}{%
+\subsection{Input data}\label{input-data}}
+
+The input data are the following
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Input (temp, rainfall, humidity)}
+\NormalTok{inputs }\OperatorTok{=}\NormalTok{ np.array(}
+\NormalTok{    [[}\DecValTok{73}\NormalTok{, }\DecValTok{67}\NormalTok{, }\DecValTok{43}\NormalTok{],}
+\NormalTok{    [}\DecValTok{91}\NormalTok{, }\DecValTok{88}\NormalTok{, }\DecValTok{64}\NormalTok{],}
+\NormalTok{    [}\DecValTok{87}\NormalTok{, }\DecValTok{134}\NormalTok{, }\DecValTok{58}\NormalTok{],}
+\NormalTok{    [}\DecValTok{102}\NormalTok{, }\DecValTok{43}\NormalTok{, }\DecValTok{37}\NormalTok{],}
+\NormalTok{    [}\DecValTok{69}\NormalTok{, }\DecValTok{96}\NormalTok{, }\DecValTok{70}\NormalTok{]], }
+\NormalTok{    dtype}\OperatorTok{=}\StringTok{\textquotesingle{}float32\textquotesingle{}}
+\NormalTok{)}
+
+\NormalTok{inputs}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+array([[ 73.,  67.,  43.],
+       [ 91.,  88.,  64.],
+       [ 87., 134.,  58.],
+       [102.,  43.,  37.],
+       [ 69.,  96.,  70.]], dtype=float32)
+\end{verbatim}
+
+The targets (labels) are the following
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Targets (apples, oranges)}
+\NormalTok{targets }\OperatorTok{=}\NormalTok{ np.array(}
+\NormalTok{    [[}\DecValTok{56}\NormalTok{, }\DecValTok{70}\NormalTok{],}
+\NormalTok{    [}\DecValTok{81}\NormalTok{, }\DecValTok{101}\NormalTok{],}
+\NormalTok{    [}\DecValTok{119}\NormalTok{, }\DecValTok{133}\NormalTok{],}
+\NormalTok{    [}\DecValTok{22}\NormalTok{, }\DecValTok{37}\NormalTok{],}
+\NormalTok{    [}\DecValTok{103}\NormalTok{, }\DecValTok{119}\NormalTok{]], }
+\NormalTok{    dtype}\OperatorTok{=}\StringTok{\textquotesingle{}float32\textquotesingle{}}
+\NormalTok{)}
+
+\NormalTok{targets}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+array([[ 56.,  70.],
+       [ 81., 101.],
+       [119., 133.],
+       [ 22.,  37.],
+       [103., 119.]], dtype=float32)
+\end{verbatim}
+
+Transform the input and targets in tensors
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{inputs }\OperatorTok{=}\NormalTok{ torch.from\_numpy(inputs)}
+\NormalTok{inputs}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+tensor([[ 73.,  67.,  43.],
+        [ 91.,  88.,  64.],
+        [ 87., 134.,  58.],
+        [102.,  43.,  37.],
+        [ 69.,  96.,  70.]])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{targets }\OperatorTok{=}\NormalTok{ torch.from\_numpy(targets)}
+\NormalTok{targets}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+tensor([[ 56.,  70.],
+        [ 81., 101.],
+        [119., 133.],
+        [ 22.,  37.],
+        [103., 119.]])
+\end{verbatim}
+
+\hypertarget{weights-and-biases-initialization}{%
+\subsection{Weights and biases
+initialization}\label{weights-and-biases-initialization}}
+
+Weights and biases are initialized with random values following a normal
+distribution with mean 0 and standard deviation 1. - Weights are
+collected in a tensor having the where the first dimension (rows)
+corresponds to the number of models (2, i.e., the number of outputs) and
+the second dimension (columns) corresponds to the number of features (3,
+i.e., the number of inputs) - Biases are collected in a tensor having
+the first dimension equal to the number of models (2)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{w }\OperatorTok{=}\NormalTok{ torch.randn((}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{), requires\_grad}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{w}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+tensor([[ 0.7171, -0.4566,  0.3752],
+        [-2.4049, -0.1775,  0.8105]], requires_grad=True)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{b }\OperatorTok{=}\NormalTok{ torch.randn((}\DecValTok{2}\NormalTok{), requires\_grad}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{b}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+tensor([ 0.4293, -0.6531], requires_grad=True)
+\end{verbatim}
+
+\hypertarget{the-model}{%
+\subsection{The model}\label{the-model}}
+
+The model is
+
+\[X \cdot W^{T} + B\]
+
+This model can be written in python as a function of x
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ regression\_model(x):}
+    \ControlFlowTok{return}\NormalTok{ x }\OperatorTok{@}\NormalTok{ w.T }\OperatorTok{+}\NormalTok{ b}
+\end{Highlighting}
+\end{Shaded}
+
+where - \texttt{@} is the matrix multiplication operator - \texttt{.T}
+(or \texttt{.t()}) outputs the transpose tensor
+
+Moreover, notice that b is a vector, while the result of x @ w.T is a
+matrix: the summation is computed only after b is broadcasted on the
+rows to match the matrix shape
+
+\hypertarget{the-predictions}{%
+\subsection{The predictions}\label{the-predictions}}
+
+The predictions of the model are computed calling the function
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{preds }\OperatorTok{=}\NormalTok{ regression\_model(inputs)}
+\NormalTok{preds}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+tensor([[  38.3222, -153.2487],
+        [  49.5216, -183.2430],
+        [  23.3985, -186.6518],
+        [  67.8257, -223.5927],
+        [  32.3434, -126.8929]], grad_fn=<AddBackward0>)
+\end{verbatim}
+
+If the predictions are compared with the targets it can be seen that
+they are quite different. That's because the model has not been trained
+yet, and weights and biases still have random values
+
+\hypertarget{definition-of-a-loss-function}{%
+\subsection{Definition of a Loss
+function}\label{definition-of-a-loss-function}}
+
+Improving the model, it must be evaluated how well the model is
+performing. The model predictions are compared with the actual targets
+using the following method:
+
+\begin{itemize}
+\tightlist
+\item
+  Calculate the difference between the two matrices (\texttt{preds} and
+  \texttt{targets}).
+\item
+  Square all elements of the difference matrix to remove negative
+  values.
+\item
+  Calculate the average of the elements in the resulting matrix.
+\end{itemize}
+
+The result is a single number, known as the \textbf{mean squared error}
+(MSE).
+
+\[\frac{\sum{(\text{pred}-\text{target})^{2}}}{N}\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ mse(t1, t2):}
+\NormalTok{    diff }\OperatorTok{=}\NormalTok{ t1 }\OperatorTok{{-}}\NormalTok{ t2}
+\NormalTok{    quad\_diff }\OperatorTok{=}\NormalTok{ diff }\OperatorTok{*}\NormalTok{ diff}
+\NormalTok{    mean\_quad\_diff }\OperatorTok{=}\NormalTok{ torch.}\BuiltInTok{sum}\NormalTok{(quad\_diff) }\OperatorTok{/}\NormalTok{ diff.numel()}
+    \ControlFlowTok{return}\NormalTok{ mean\_quad\_diff}
+\end{Highlighting}
+\end{Shaded}
+
+So the loss, in this case, is
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mse\_loss }\OperatorTok{=}\NormalTok{ mse(preds, targets)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{gradient-computation}{%
+\subsection{Gradient computation}\label{gradient-computation}}
+
+Since w and b have been defined with requires\_grad equal to True, the
+gradient of the loss function is going to be computed w.r.t w and b
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mse\_loss.backward()}
+\end{Highlighting}
+\end{Shaded}
+
+The gradients are stored in the .grad attribute of w and b
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{w.grad, b.grad}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(tensor([[ -2534.6836,  -4315.5259,  -2314.0107],
+         [-22704.0098, -23523.1172, -14637.0957]]),
+ tensor([ -33.9177, -266.7258]))
+\end{verbatim}
+
+\hypertarget{adjust-weights-and-biases-to-reduce-the-loss}{%
+\subsubsection{Adjust weights and biases to reduce the
+loss}\label{adjust-weights-and-biases-to-reduce-the-loss}}
+
+The loss is a
+\href{https://en.wikipedia.org/wiki/Quadratic_function}{quadratic
+function} of weights and biases, and the objective is to find the set of
+weights where the loss is the lowest. If we plot a graph of the loss
+w.r.t any individual weight or bias element, it will look like the
+figure shown below. An important insight from calculus is that the
+gradient indicates the rate of change of the loss, i.e., the loss
+function's \href{https://en.wikipedia.org/wiki/Slope}{slope} w.r.t. the
+weights and biases.
+
+If a gradient element is \textbf{positive}:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{increasing} the element weight value slightly will
+  \textbf{increase} the loss
+\item
+  \textbf{decreasing} the element weight value slightly will
+  \textbf{decrease} the loss
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics{https://i.imgur.com/WLzJ4xP.png}
+
+}
+
+\caption{postive-gradient}
+
+\end{figure}
+
+If a gradient element is \textbf{negative}:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{increasing} the element weight value slightly will
+  \textbf{decrease} the loss
+\item
+  \textbf{decreasing} the element weight value slightly will
+  \textbf{increase} the loss
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics{https://i.imgur.com/dvG2fxU.png}
+
+}
+
+\caption{negative=gradient}
+
+\end{figure}
+
+The increase or decrease in the loss by changing a weight element is
+proportional to the gradient of the loss w.r.t. that element. This
+observation forms the basis of \emph{the gradient descent} optimization
+algorithm that we'll use to improve our model (by \emph{descending}
+along the \emph{gradient}).
+
+We can subtract from each weight element a small quantity proportional
+to the derivative of the loss w.r.t. that element to reduce the loss
+slightly.
+
+Since PyTorch accumulates gradients, to procede the gradients of w and b
+have to be reset to 0
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{w.grad.zero\_()}
+\NormalTok{b.grad.zero\_()}
+\BuiltInTok{print}\NormalTok{(w.grad)}
+\BuiltInTok{print}\NormalTok{(b.grad)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+tensor([[0., 0., 0.],
+        [0., 0., 0.]])
+tensor([0., 0.])
+\end{verbatim}
+
+Then, we register the current loss to compare it later
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{old\_mse\_loss }\OperatorTok{=}\NormalTok{ mse(preds, targets)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{step-by-step-train-the-model-using-gradient-descent}{%
+\subsection{Step-by-step: train the model using gradient
+descent}\label{step-by-step-train-the-model-using-gradient-descent}}
+
+Follow these steps to train the model 1. Generate predictions 2.
+Calculate the loss 3. Compute gradients w.r.t the weights and biases 4.
+Adjust the weights by subtracting a small quantity proportional to the
+gradient 5. Reset the gradients to zero
+
+\hypertarget{generate-predictions}{%
+\subsubsection{1. Generate predictions}\label{generate-predictions}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Generate predictions}
+\NormalTok{preds }\OperatorTok{=}\NormalTok{ regression\_model(inputs)}
+\NormalTok{preds}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+tensor([[  38.3222, -153.2487],
+        [  49.5216, -183.2430],
+        [  23.3985, -186.6518],
+        [  67.8257, -223.5927],
+        [  32.3434, -126.8929]], grad_fn=<AddBackward0>)
+\end{verbatim}
+
+\hypertarget{calculate-the-loss-and-record-the-loss-for-comparison}{%
+\subsubsection{2. Calculate the loss (and record the loss for
+comparison)}\label{calculate-the-loss-and-record-the-loss-for-comparison}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate the loss}
+\NormalTok{mse\_loss }\OperatorTok{=}\NormalTok{ mse(preds, targets)}
+\BuiltInTok{print}\NormalTok{(mse\_loss)}
+\NormalTok{old\_mse\_loss }\OperatorTok{=}\NormalTok{ mse\_loss}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+tensor(37871.8555, grad_fn=<DivBackward0>)
+\end{verbatim}
+
+\hypertarget{compute-gradients-w.r.t-the-weights-and-biases}{%
+\subsubsection{3. Compute gradients w.r.t the weights and
+biases}\label{compute-gradients-w.r.t-the-weights-and-biases}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Compute gradients}
+\NormalTok{mse\_loss.backward()}
+\BuiltInTok{print}\NormalTok{(w.grad)}
+\BuiltInTok{print}\NormalTok{(b.grad)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+tensor([[ -2534.6836,  -4315.5259,  -2314.0107],
+        [-22704.0098, -23523.1172, -14637.0957]])
+tensor([ -33.9177, -266.7258])
+\end{verbatim}
+
+\hypertarget{and-5.-adjust-the-weights-by-subtracting-a-small-quantity-proportional-to-the-gradient-and-reset-the-gradients-to-zero}{%
+\subsubsection{4 and 5. Adjust the weights by subtracting a small
+quantity proportional to the gradient and reset the gradients to
+zero}\label{and-5.-adjust-the-weights-by-subtracting-a-small-quantity-proportional-to-the-gradient-and-reset-the-gradients-to-zero}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Adjust weights \& reset gradients}
+\ControlFlowTok{with}\NormalTok{ torch.no\_grad():}
+\NormalTok{    w }\OperatorTok{{-}=}\NormalTok{ w.grad }\OperatorTok{*} \FloatTok{1e{-}5}
+\NormalTok{    b }\OperatorTok{{-}=}\NormalTok{ b.grad }\OperatorTok{*} \FloatTok{1e{-}5}
+\NormalTok{    w.grad.zero\_()}
+\NormalTok{    b.grad.zero\_()}
+\end{Highlighting}
+\end{Shaded}
+
+So the weights and biases are updated subtracting from them a value
+equal to the product between each own gradient and a very small number
+(\texttt{10\^{}-5} in this case), to ensure that they don't get modified
+by a very large amount. In this way, a small step is taken in the
+downhill direction of the gradient, not a giant leap. This number is
+called the \textbf{learning rate} of the algorithm.
+
+\texttt{torch.no\_grad} is a context manager used to indicate to PyTorch
+that it shouldn't track, calculate, or modify gradients while updating
+the weights and biases. In this mode, the result of every computation
+will have \texttt{requires\_grad=False}, even when the inputs have
+\texttt{requires\_grad=True}.
+
+See https://pytorch.org/docs/stable/generated/torch.no\_grad.html
+
+\hypertarget{compare-the-loss-between-the-predictions-taken-before-and-after-the-weights-and-biases-update}{%
+\subsubsection{Compare the loss between the predictions taken before and
+after the weights and biases
+update}\label{compare-the-loss-between-the-predictions-taken-before-and-after-the-weights-and-biases-update}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{new\_preds }\OperatorTok{=}\NormalTok{ regression\_model(inputs)}
+\NormalTok{new\_mse\_loss }\OperatorTok{=}\NormalTok{ mse(new\_preds, targets)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f\textquotesingle{}old loss: }\SpecialCharTok{\{}\NormalTok{old\_mse\_loss}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f\textquotesingle{}new loss: }\SpecialCharTok{\{}\NormalTok{new\_mse\_loss}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+old loss: 37871.85546875
+new loss: 25911.462890625
+\end{verbatim}
+
+The loss reduced by a lot
+
+\hypertarget{train-for-multiple-epochs}{%
+\subsection{Train for multiple epochs}\label{train-for-multiple-epochs}}
+
+To reduce the loss further, repeat the process of adjusting the weights
+and biases using the gradients multiple times. Each iteration is called
+an \textbf{epoch}.
+
+Train the model for 1000 epochs.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# reset w and b}
+\ImportTok{from}\NormalTok{ tqdm.notebook }\ImportTok{import}\NormalTok{ tqdm}
+
+
+\NormalTok{w }\OperatorTok{=}\NormalTok{ torch.randn((}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{), requires\_grad}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{b }\OperatorTok{=}\NormalTok{ torch.randn((}\DecValTok{2}\NormalTok{), requires\_grad}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+
+\KeywordTok{def}\NormalTok{ regression\_model(inputs,w,b):}
+    \ControlFlowTok{return}\NormalTok{ inputs}\OperatorTok{@}\NormalTok{w.T}\OperatorTok{+}\NormalTok{b}
+
+\KeywordTok{def}\NormalTok{ mse(t1,t2):}
+\NormalTok{    diff }\OperatorTok{=}\NormalTok{ t1}\OperatorTok{{-}}\NormalTok{t2}
+    \ControlFlowTok{return}\NormalTok{ torch.}\BuiltInTok{sum}\NormalTok{(diff}\OperatorTok{*}\NormalTok{diff)}\OperatorTok{/}\NormalTok{diff.numel()}
+
+\NormalTok{loss\_history }\OperatorTok{=}\NormalTok{ []}
+
+\ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in}\NormalTok{ tqdm(}\BuiltInTok{range}\NormalTok{(}\DecValTok{1000}\NormalTok{)):}
+
+    \CommentTok{\# generate predictions}
+\NormalTok{    preds }\OperatorTok{=}\NormalTok{ regression\_model(inputs,w,b)}
+    
+    \CommentTok{\# calculate the loss}
+\NormalTok{    mse\_loss }\OperatorTok{=}\NormalTok{ mse(preds,targets)}
+\NormalTok{    loss\_history.append(mse\_loss)}
+
+    \CommentTok{\# compute the gradients}
+\NormalTok{    mse\_loss.backward()}
+
+    \CommentTok{\# update w and b}
+    \ControlFlowTok{with}\NormalTok{ torch.no\_grad():}
+\NormalTok{        w }\OperatorTok{{-}=}\NormalTok{ w.grad}\OperatorTok{*}\FloatTok{1e{-}5}
+\NormalTok{        b }\OperatorTok{{-}=}\NormalTok{ b.grad}\OperatorTok{*}\FloatTok{1e{-}5}
+\NormalTok{        w.grad.zero\_()}
+\NormalTok{        b.grad.zero\_()}
+
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f\textquotesingle{}starting loss}\CharTok{\textbackslash{}t}\SpecialCharTok{\{}\NormalTok{loss\_history[}\DecValTok{0}\NormalTok{]}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f\textquotesingle{}ending loss}\CharTok{\textbackslash{}t}\SpecialCharTok{\{}\NormalTok{loss\_history[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{]}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  0%|          | 0/1000 [00:00<?, ?it/s]
+\end{verbatim}
+
+\begin{verbatim}
+starting loss   31568.06640625
+ending loss 54.96778106689453
+\end{verbatim}
+
+\hypertarget{linear-regression-using-pytorch-built-ins}{%
+\section{Linear regression using PyTorch
+built-ins}\label{linear-regression-using-pytorch-built-ins}}
+
+PyTorch provides a built-in for linear regression models.
+
+Import the \texttt{torch.nn} package, which contains utility classes for
+building neural networks
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ torch.nn }\ImportTok{as}\NormalTok{ nn}
+\end{Highlighting}
+\end{Shaded}
+
+Import the inputs and targets
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Input (temp, rainfall, humidity)}
+\NormalTok{inputs }\OperatorTok{=}\NormalTok{ np.array(}
+\NormalTok{    [[}\DecValTok{73}\NormalTok{, }\DecValTok{67}\NormalTok{, }\DecValTok{43}\NormalTok{],}
+\NormalTok{    [}\DecValTok{91}\NormalTok{, }\DecValTok{88}\NormalTok{, }\DecValTok{64}\NormalTok{],}
+\NormalTok{    [}\DecValTok{87}\NormalTok{, }\DecValTok{134}\NormalTok{, }\DecValTok{58}\NormalTok{],}
+\NormalTok{    [}\DecValTok{102}\NormalTok{, }\DecValTok{43}\NormalTok{, }\DecValTok{37}\NormalTok{],}
+\NormalTok{    [}\DecValTok{69}\NormalTok{, }\DecValTok{96}\NormalTok{, }\DecValTok{70}\NormalTok{],}
+\NormalTok{    [}\DecValTok{74}\NormalTok{, }\DecValTok{66}\NormalTok{, }\DecValTok{43}\NormalTok{],}
+\NormalTok{    [}\DecValTok{91}\NormalTok{, }\DecValTok{87}\NormalTok{, }\DecValTok{65}\NormalTok{],}
+\NormalTok{    [}\DecValTok{88}\NormalTok{, }\DecValTok{134}\NormalTok{, }\DecValTok{59}\NormalTok{],}
+\NormalTok{    [}\DecValTok{101}\NormalTok{, }\DecValTok{44}\NormalTok{, }\DecValTok{37}\NormalTok{],}
+\NormalTok{    [}\DecValTok{68}\NormalTok{, }\DecValTok{96}\NormalTok{, }\DecValTok{71}\NormalTok{],}
+\NormalTok{    [}\DecValTok{73}\NormalTok{, }\DecValTok{66}\NormalTok{, }\DecValTok{44}\NormalTok{],}
+\NormalTok{    [}\DecValTok{92}\NormalTok{, }\DecValTok{87}\NormalTok{, }\DecValTok{64}\NormalTok{],}
+\NormalTok{    [}\DecValTok{87}\NormalTok{, }\DecValTok{135}\NormalTok{, }\DecValTok{57}\NormalTok{],}
+\NormalTok{    [}\DecValTok{103}\NormalTok{, }\DecValTok{43}\NormalTok{, }\DecValTok{36}\NormalTok{],}
+\NormalTok{    [}\DecValTok{68}\NormalTok{, }\DecValTok{97}\NormalTok{, }\DecValTok{70}\NormalTok{]], }
+\NormalTok{    dtype}\OperatorTok{=}\StringTok{\textquotesingle{}float32\textquotesingle{}}
+\NormalTok{)}
+
+\CommentTok{\# Targets (apples, oranges)}
+\NormalTok{targets }\OperatorTok{=}\NormalTok{ np.array(}
+\NormalTok{    [[}\DecValTok{56}\NormalTok{, }\DecValTok{70}\NormalTok{],}
+\NormalTok{    [}\DecValTok{81}\NormalTok{, }\DecValTok{101}\NormalTok{],}
+\NormalTok{    [}\DecValTok{119}\NormalTok{, }\DecValTok{133}\NormalTok{],}
+\NormalTok{    [}\DecValTok{22}\NormalTok{, }\DecValTok{37}\NormalTok{],}
+\NormalTok{    [}\DecValTok{103}\NormalTok{, }\DecValTok{119}\NormalTok{],}
+\NormalTok{    [}\DecValTok{57}\NormalTok{, }\DecValTok{69}\NormalTok{],}
+\NormalTok{    [}\DecValTok{80}\NormalTok{, }\DecValTok{102}\NormalTok{],}
+\NormalTok{    [}\DecValTok{118}\NormalTok{, }\DecValTok{132}\NormalTok{],}
+\NormalTok{    [}\DecValTok{21}\NormalTok{, }\DecValTok{38}\NormalTok{],}
+\NormalTok{    [}\DecValTok{104}\NormalTok{, }\DecValTok{118}\NormalTok{],}
+\NormalTok{    [}\DecValTok{57}\NormalTok{, }\DecValTok{69}\NormalTok{],}
+\NormalTok{    [}\DecValTok{82}\NormalTok{, }\DecValTok{100}\NormalTok{],}
+\NormalTok{    [}\DecValTok{118}\NormalTok{, }\DecValTok{134}\NormalTok{],}
+\NormalTok{    [}\DecValTok{20}\NormalTok{, }\DecValTok{38}\NormalTok{],}
+\NormalTok{    [}\DecValTok{102}\NormalTok{, }\DecValTok{120}\NormalTok{]],}
+\NormalTok{    dtype}\OperatorTok{=}\StringTok{\textquotesingle{}float32\textquotesingle{}}
+\NormalTok{)}
+
+\NormalTok{inputs }\OperatorTok{=}\NormalTok{ torch.from\_numpy(inputs)}
+\NormalTok{targets }\OperatorTok{=}\NormalTok{ torch.from\_numpy(targets)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{dataset-and-dataloader}{%
+\subsection{Dataset and DataLoader}\label{dataset-and-dataloader}}
+
+\hypertarget{tensordataset}{%
+\subsubsection{\texorpdfstring{\texttt{TensorDataset}}{TensorDataset}}\label{tensordataset}}
+
+\texttt{TensorDataset} allows access to rows from \texttt{inputs} and
+\texttt{targets} as tuples, and provides standard APIs for working with
+many different types of datasets in PyTorch.
+
+See
+https://pytorch.org/docs/stable/data.html\#torch.utils.data.DataLoader
+
+It allows to access a small section of the training data using the array
+indexing notation (\texttt{{[}0:3{]}} in the above code). It returns a
+tuple with two elements: - the first element contains the input
+variables for the selected rows - the second contains the targets
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ torch.utils.data }\ImportTok{import}\NormalTok{ TensorDataset}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Define the TensorDataset}
+\NormalTok{train\_ds }\OperatorTok{=}\NormalTok{ TensorDataset(inputs, targets)}
+\NormalTok{train\_ds[}\DecValTok{0}\NormalTok{:}\DecValTok{3}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(tensor([[ 73.,  67.,  43.],
+         [ 91.,  88.,  64.],
+         [ 87., 134.,  58.]]),
+ tensor([[ 56.,  70.],
+         [ 81., 101.],
+         [119., 133.]]))
+\end{verbatim}
+
+\hypertarget{dataloader}{%
+\subsubsection{\texorpdfstring{\texttt{DataLoader}}{DataLoader}}\label{dataloader}}
+
+A \texttt{DataLoader} is a Python iterable over a dataset. It can split
+the data into batches of a predefined size while training. It also
+provides other utilities like shuffling and random sampling of the data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ torch.utils.data }\ImportTok{import}\NormalTok{ DataLoader}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Define data loader}
+\NormalTok{train\_dl }\OperatorTok{=}\NormalTok{ DataLoader(train\_ds, batch\_size }\OperatorTok{=} \DecValTok{5}\NormalTok{, shuffle}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{batch\_size} parameter divides the dataset into batches:
+during each epoch, weights and biases are updated computing the
+gradients over each batch, so speeding up the gradient descent since
+more than one update (in this case 3, since the samples are 15 divided
+into batches of 5 samples) occurs during each epoch. Iterating over the
+dataloader, it returns one batch of data with the given batch size.
+
+The \texttt{shuffle} parameter set to \texttt{True} orders to the
+dataloader to shuffle the training data before creating batches.
+Shuffling helps randomize the input to the optimization algorithm,
+leading to a faster reduction in the loss.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Example: the first batch of the dataset}
+\BuiltInTok{list}\NormalTok{(train\_dl)[}\DecValTok{0}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[tensor([[ 73.,  67.,  43.],
+         [103.,  43.,  36.],
+         [101.,  44.,  37.],
+         [ 69.,  96.,  70.],
+         [ 73.,  66.,  44.]]),
+ tensor([[ 56.,  70.],
+         [ 20.,  38.],
+         [ 21.,  38.],
+         [103., 119.],
+         [ 57.,  69.]])]
+\end{verbatim}
+
+\hypertarget{nn.linear}{%
+\subsubsection{\texorpdfstring{\texttt{nn.Linear}}{nn.Linear}}\label{nn.linear}}
+
+The \texttt{nn.Linear} class creates a linear model
+(\(X \cdot W^{T} + B\)), and automatically initializes weights and
+biases
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Define model}
+\NormalTok{linear\_model }\OperatorTok{=}\NormalTok{ nn.Linear(}\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(linear\_model.weight)}
+\BuiltInTok{print}\NormalTok{(linear\_model.bias)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Parameter containing:
+tensor([[ 0.2004, -0.1433,  0.1634],
+        [-0.4712, -0.5417, -0.2353]], requires_grad=True)
+Parameter containing:
+tensor([-0.3474,  0.0779], requires_grad=True)
+\end{verbatim}
+
+To see the list of all the weights and bias matrices present in the
+model use the \texttt{.parameters} method
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Parameters}
+\BuiltInTok{list}\NormalTok{(linear\_model.parameters())}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[Parameter containing:
+ tensor([[ 0.2004, -0.1433,  0.1634],
+         [-0.4712, -0.5417, -0.2353]], requires_grad=True),
+ Parameter containing:
+ tensor([-0.3474,  0.0779], requires_grad=True)]
+\end{verbatim}
+
+\hypertarget{loss-function}{%
+\subsection{Loss Function}\label{loss-function}}
+
+Also the mse loss function is already available in PyTorch as a built-in
+loss function, and it is called \texttt{mse\_loss}
+
+Built-in loss functions and other utlities are collected in the
+\texttt{nn.functional} module
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Import nn.functional}
+\ImportTok{from}\NormalTok{ torch.nn.functional }\ImportTok{import}\NormalTok{ mse\_loss}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{loss }\OperatorTok{=}\NormalTok{ mse\_loss(linear\_model(inputs), targets)}
+\BuiltInTok{print}\NormalTok{(loss)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+tensor(22213.8789, grad_fn=<MseLossBackward0>)
+\end{verbatim}
+
+\hypertarget{optimizer}{%
+\subsection{Optimizer}\label{optimizer}}
+
+Instead of manually manipulating the model's weights \& biases using
+gradients, the optimizer \texttt{optim.SGD} can be used. SGD is short
+for ``stochastic gradient descent''. The term \emph{stochastic}
+indicates that samples are selected in random batches instead of as a
+single group.
+
+Optimizers are collected in the \texttt{optim} module
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Define optimizer}
+\NormalTok{opt\_SDG }\OperatorTok{=}\NormalTok{ torch.optim.SGD(linear\_model.parameters(), lr}\OperatorTok{=}\FloatTok{1e{-}5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+I'm passing as the first argument of the SGD class a list containing the
+model parameters
+
+\hypertarget{model-training}{%
+\subsection{Model training}\label{model-training}}
+
+Steps to implement gradient descent:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Generate predictions
+\item
+  Calculate the loss
+\item
+  Compute gradients w.r.t the weights and biases
+\item
+  Adjust the weights by subtracting a small quantity proportional to the
+  gradient
+\item
+  Reset the gradients to zero
+\end{enumerate}
+
+The only change is that now the dataset is divided into batches, instead
+of processing the entire training data in every iteration.
+
+It is useful to define a utility function \texttt{fit} that trains the
+model for a given number of epochs.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Utility function to train the model}
+\KeywordTok{def}\NormalTok{ fit(num\_epochs, model, loss\_fn, opt, train\_dl):}
+    
+    \CommentTok{\# Repeat for given number of epochs}
+    \ControlFlowTok{for}\NormalTok{ epoch }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(num\_epochs):}
+        
+        \CommentTok{\# Train with batches of data}
+        \ControlFlowTok{for}\NormalTok{ xb,yb }\KeywordTok{in}\NormalTok{ train\_dl:}
+            
+            \CommentTok{\# 1. Generate predictions}
+\NormalTok{            pred }\OperatorTok{=}\NormalTok{ model(xb)}
+            
+            \CommentTok{\# 2. Calculate loss}
+\NormalTok{            loss }\OperatorTok{=}\NormalTok{ loss\_fn(pred, yb)}
+            
+            \CommentTok{\# 3. Compute gradients}
+\NormalTok{            loss.backward()}
+            
+            \CommentTok{\# 4. Update parameters using gradients}
+\NormalTok{            opt.step()}
+            
+            \CommentTok{\# 5. Reset the gradients to zero}
+\NormalTok{            opt.zero\_grad()}
+        
+        \CommentTok{\# Print the progress}
+        \ControlFlowTok{if}\NormalTok{ (epoch}\OperatorTok{+}\DecValTok{1}\NormalTok{) }\OperatorTok{\%} \DecValTok{10} \OperatorTok{==} \DecValTok{0}\NormalTok{:}
+            \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f\textquotesingle{}Epoch [}\SpecialCharTok{\{}\NormalTok{epoch}\OperatorTok{+}\DecValTok{1}\SpecialCharTok{\}}\SpecialStringTok{/}\SpecialCharTok{\{}\NormalTok{num\_epochs}\SpecialCharTok{\}}\SpecialStringTok{], Loss: }\SpecialCharTok{\{}\NormalTok{loss}\SpecialCharTok{.}\NormalTok{item()}\SpecialCharTok{:.4f\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Notice that: - dataloader is used to get batches of data for every
+iteration - parameters (weights and biases) are update not manually but
+automatically, using - \texttt{opt.step} to perform the update -
+\texttt{opt.zero\_grad} to reset the gradients to zero. - a log
+statement that prints the loss from the last batch of data for every
+10th epoch to track training progress has been added (the
+\texttt{loss.item()} method returns the actual value stored in the loss
+tensor)
+
+Train the model for 100 epochs
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit(}
+\NormalTok{    num\_epochs}\OperatorTok{=}\DecValTok{100}\NormalTok{,}
+\NormalTok{    model}\OperatorTok{=}\NormalTok{linear\_model,}
+\NormalTok{    loss\_fn}\OperatorTok{=}\NormalTok{mse\_loss,}
+\NormalTok{    opt}\OperatorTok{=}\NormalTok{opt\_SDG,}
+\NormalTok{    train\_dl}\OperatorTok{=}\NormalTok{train\_dl}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Epoch [10/100], Loss: 744.7711
+Epoch [20/100], Loss: 107.7794
+Epoch [30/100], Loss: 71.2221
+Epoch [40/100], Loss: 73.8659
+Epoch [50/100], Loss: 59.5663
+Epoch [60/100], Loss: 30.8944
+Epoch [70/100], Loss: 51.4250
+Epoch [80/100], Loss: 49.9322
+Epoch [90/100], Loss: 27.3745
+Epoch [100/100], Loss: 12.0347
+\end{verbatim}
+
+
+
+\end{document}
