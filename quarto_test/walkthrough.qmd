@@ -1,0 +1,41 @@
+---
+title: "Hello, Quarto"
+format: html
+---
+
+## Markdown
+
+Markdown is an easy to read and write text format:
+
+- It's _plain text_ so works well with version control
+- It can be **rendered** into HTML, PDF, and more
+- Learn more at: <https://quarto.org/docs/authoring/>
+
+## Code Cell
+
+Here is a Python code cell:
+
+```{python}
+import os
+os.cpu_count()
+```
+
+## Equation
+
+Use LaTeX to write equations:
+
+$$
+\chi' = \sum_{i=1}^n k_i s_i^2
+$$
+
+```{r}
+x <- lapply(list(1,2,3),function(x) {return(x^2)})
+print(x)
+```
+
+
+<!-- ```{julia}
+x,y=10,20
+
+x+y
+``` -->
