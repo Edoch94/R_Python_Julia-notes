@@ -260,7 +260,7 @@ create_new_groups <- function(original_groups, max_output = NULL){
     perm_grid <- lapply(perm_grid,as.character)
     
     perm_grid <- do.call(rbind, perm_grid)
-  
+    
     new_groups <- new_groups_list(perm_grid,verbose = F) 
     
     new_groups <- find_matrix(new_groups)
@@ -287,7 +287,7 @@ test <- create_new_groups(original_groups)
 
 
 ```{r}
-create_new_groups_modified <- function(original_groups, max_output = NULL, elements_from_original = NULL){
+create_new_groups_modified <- function(original_groups, max_output = NULL, elements_from_original = NULL, n_output_groups = NULL){
 
   min_len_original_groups = min(lengths(original_groups))
 
@@ -382,14 +382,15 @@ create_new_groups_modified <- function(original_groups, max_output = NULL, eleme
       perm_grid <- lapply(perm_grid,as.character)
       
       perm_grid <- do.call(rbind, perm_grid)
-    
+      a <<- perm_grid
       new_groups <- new_groups_list(perm_grid,verbose = F) 
       
       new_groups <- find_matrix(new_groups)
       
       new_groups <- new_groups[which(sapply(new_groups, nrow) >= config[3])]
       
-      results_list[[1]] <- new_groups
+      # results_list[[1]] <- new_groups
+      results_list <- new_groups
 
     } else {
       stop("value of elements_from_original not available: check config_test to see available configurations")
@@ -407,10 +408,203 @@ test <- create_new_groups_modified(original_groups,elements_from_original = 1)
 
 
 ```{r}
-which(sapply(config_test,function(x) x[1]==2))
+
+select_matrices_by_number_output_groups <- function(l,n_output_groups){
+  
+  # Filter out matrices having less rows than `n_output_groups`
+  out_l <- l[which(
+    sapply(
+      l,
+      # function(x) check_matrix_by_number_output_groups(x,n_output_groups)
+      function(mtr){
+        if(nrow(mtr)<n_output_groups) return(F)
+        else return(T)
+      }
+    )
+  )]
+  
+  # Cut-off rows from matrices having more rows than `n_output_groups`
+  out_l <- lapply(
+    out_l,
+    function(x) head(x,n_output_groups)
+  )
+  p <<- out_l
+  # Keep only unique elements (i.e., matrices)
+  out_l <- unique(out_l)
+  
+  out_l_2 <<- out_l
+  
+  return(out_l)
+  
+}
+
+
 ```
 
 
+
+
+
+
+
+```{r}
+create_new_groups_modified_2 <- function(original_groups, max_output = NULL, elements_from_original = NULL, n_output_groups = NULL){
+
+  min_len_original_groups = min(lengths(original_groups))
+
+  num_original_groups = length(original_groups)
+  
+  max_len_subgroup <- floor(min_len_original_groups/2)
+  
+  
+  if(min_len_original_groups<2){
+    stop("Not possible to populate new groups: at least one original group has less than 2 elements")
+  }
+  
+  
+  NewGroups_subLen_len_num <- list()
+  
+  for (len_subgroup in 1:max_len_subgroup){
+    
+    new_group_params <- c(
+      len_subgroup,
+      len_subgroup*num_original_groups,
+      floor(min_len_original_groups/len_subgroup)
+    )
+    
+    NewGroups_subLen_len_num[[len_subgroup]] <- new_group_params
+  }
+  
+  out_list <- list()
+  ind <- 1
+  for (e in 1:length(NewGroups_subLen_len_num)){
+    NewGroup_subLen_len_num <- NewGroups_subLen_len_num[[e]]
+    
+    elem_list <- list()
+    ind <- 1
+    # print(ind)
+    for (o in 1:length(original_groups)){
+      original_group <- original_groups[[o]]
+
+      elem_list[[paste("group",ind)]] <- permutations(original_group,NewGroup_subLen_len_num[1])
+      ind <- ind+1
+    }
+    
+    out_list[[paste(c("subLen","len","numGroups"), NewGroup_subLen_len_num, collapse = " ")]] <- elem_list
+  }
+  
+  results_list <- list()
+  
+  config_test <<- NewGroups_subLen_len_num
+  
+  # if `elements_from_original` is not set, output all possible combinations
+  
+  if(is.null(elements_from_original)){
+    for (config_id in 1:length(NewGroups_subLen_len_num)){
+      
+      config <- NewGroups_subLen_len_num[[config_id]]
+      
+      perm_grid <- expand.grid(out_list[[config_id]])
+      
+      perm_grid <- split(perm_grid,1:nrow(perm_grid)) 
+      
+      perm_grid <- lapply(perm_grid,unlist)
+      
+      perm_grid <- lapply(perm_grid,as.character)
+      
+      perm_grid <- do.call(rbind, perm_grid)
+    
+      new_groups <- new_groups_list(perm_grid,verbose = F) 
+      
+      new_groups <- find_matrix(new_groups)
+      
+      # config_test <<- config
+      new_groups <- new_groups[which(sapply(new_groups, nrow) >= config[3])]
+      
+      # out_test <<- new_groups
+      results_list[[config_id]] <- new_groups
+    }
+    
+  } else {
+    
+    # if `elements_from_original` is set, check if this is a valid configuration, then output only the matrix having this configuration
+    
+    config_id <- which(sapply(NewGroups_subLen_len_num,function(x) x[1]==elements_from_original))
+    
+    if (length(config_id)!=0){
+
+      config <- NewGroups_subLen_len_num[[config_id]]
+      
+      perm_grid <- expand.grid(out_list[[config_id]])
+      
+      perm_grid <- split(perm_grid,1:nrow(perm_grid)) 
+      
+      perm_grid <- lapply(perm_grid,unlist)
+      
+      perm_grid <- lapply(perm_grid,as.character)
+      
+      perm_grid <- do.call(rbind, perm_grid)
+      
+      new_groups <- new_groups_list(perm_grid,verbose = F) 
+      
+      new_groups <- find_matrix(new_groups)
+      
+      
+      new_groups <- lapply(
+        new_groups, 
+        function(x) {
+          dimnames(x) <- NULL
+          return(x)
+        }
+      )
+      
+      a <<- new_groups
+      if(is.null(n_output_groups)){
+        
+        new_groups <- new_groups[which(sapply(new_groups, nrow) == config[3])]
+        
+      } else if (n_output_groups > config[3]){
+        
+        stop("value n_output_groups higher than max number of new groups for this configuration: check config_test to see available configurations")
+        
+      } else {
+        
+        new_groups <- select_matrices_by_number_output_groups(new_groups,n_output_groups)
+        
+      }
+      
+      # results_list[[1]] <- new_groups
+      results_list <- new_groups
+
+    } else {
+      
+      stop("value of elements_from_original not available: check config_test to see available configurations")
+      
+    }
+    
+  }
+  
+  return(results_list)
+  
+}
+
+test <- create_new_groups_modified_2(original_groups,elements_from_original=1,n_output_groups=5)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+f <- select_matrices_by_number_output_groups(b,2)
+```
 
 
 
@@ -437,4 +631,16 @@ check_for_duplicates <- function(l){
 
 check_for_duplicates(test)
 ```
+
+
+```{r}
+o <- lapply(
+  a, 
+  function(x) {
+    dimnames(x) <- NULL
+    return(x)
+  }
+)
+```
+
 
