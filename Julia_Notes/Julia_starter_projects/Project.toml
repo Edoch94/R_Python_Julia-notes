@@ -1,0 +1,7 @@
+name = "Julia_starter_projects"
+uuid = "18dd2fa3-96e4-4bc7-a92a-f245d0b5ea2b"
+authors = ["edoch <edo_chio@hotmail.it>"]
+version = "0.1.0"
+
+[deps]
+Pluto = "c3e4b0f8-55cb-11ea-2926-15256bba5781"
